@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Projects from "./components/pages/Projects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
+import Loader from "./components/Loader";
 
 function App() {
   return (
