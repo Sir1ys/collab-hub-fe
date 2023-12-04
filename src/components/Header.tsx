@@ -1,17 +1,19 @@
+import { NavLink } from "react-router-dom";
+
 export default function Header() {
   return (
     <header>
-      <a href="#">Collab Hub</a>
+      <NavLink to="/">Collab Hub</NavLink>
       <nav>
         <ul>
           <li>
-            <a href="#">Projects</a>
+            <NavLink to="/">Projects</NavLink>
           </li>
           <li>
-            <a href="#">Login</a>
+            <NavLink to="/login">Login</NavLink>
           </li>
           <li>
-            <a href="#">Profile</a>
+            <NavLink to="/profile">Profile</NavLink>
           </li>
         </ul>
       </nav>
