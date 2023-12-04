@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header>
+    <header className="flex flex-row justify-between ">
       <NavLink to="/">Collab Hub</NavLink>
       <nav>
         <ul>
