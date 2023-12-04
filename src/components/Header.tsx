@@ -1,19 +1,19 @@
-import { NavLink } from "react-router-dom";
+import Link from "./Link";
 
 export default function Header() {
   return (
-    <header className="flex flex-row justify-between ">
-      <NavLink to="/">Collab Hub</NavLink>
+    <header className="p-10 flex flex-row justify-between border-b-4 border-sky-700 bg-sky-100">
+      <Link text="Collab Hub" path="/" />
       <nav>
-        <ul>
+        <ul className="flex gap-7">
           <li>
-            <NavLink to="/">Projects</NavLink>
+            <Link text="Projects" path="/" />
           </li>
           <li>
-            <NavLink to="/login">Login</NavLink>
+            <Link text="Login" path="/login" />
           </li>
           <li>
-            <NavLink to="/profile">Profile</NavLink>
+            <Link text="Profile" path="/profile" />
           </li>
         </ul>
       </nav>
