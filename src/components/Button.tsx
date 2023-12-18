@@ -1,6 +1,8 @@
+import { ComponentPropsWithoutRef } from "react";
+
 type Props = {
   text: string;
-};
+} & ComponentPropsWithoutRef<"button">;
 
 export default function Button({ text }: Props) {
   return (

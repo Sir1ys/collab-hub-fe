@@ -21,6 +21,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           placeholder={`Enter ${label}`}
           ref={ref}
           className="w-full p-2.5 border-2 border-sky-500 rounded-md outline-none bg-sky-50 text-sky-700 focus:border-sky-700"
+          name={id}
         />
       </p>
     );
