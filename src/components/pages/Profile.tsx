@@ -1,3 +1,7 @@
+import { useUserSelector } from "../../store/hooks";
+
 export default function Profile() {
-  return <div>Profile</div>;
+  const user = useUserSelector((state) => state.user);
+
+  return <div>UserName: {user.username}</div>;
 }

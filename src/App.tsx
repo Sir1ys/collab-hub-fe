@@ -1,14 +1,16 @@
 import Header from "./components/Header";
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 import Projects from "./components/pages/Projects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
 import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <Header />
       <main className="flex justify-center">
         <Routes>
@@ -18,7 +20,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
-    </>
+    </Provider>
   );
 }
 
