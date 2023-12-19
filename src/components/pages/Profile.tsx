@@ -4,6 +4,7 @@ export default function Profile() {
   const [info, setInfo] = useState({});
   const [skills, setSkills] = useState([]);
   const [isEditingSkill, setIsEditingSkill] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleAddSkill = (e: any) => {
     e.preventDefault();
@@ -47,6 +48,35 @@ export default function Profile() {
         <h2 className="text-6xl">Your info</h2>
         <ul></ul>
         <button>Edit</button>
+      </section>
+      <section>
+        <button
+          type="button"
+          onClick={() => {
+            setIsDeleting(true);
+          }}
+        >
+          Delete Account
+        </button>
+
+        {isDeleting ? (
+          <div>
+            <p>
+              Are you sure you want to delete your account? All connections will
+              be lost.
+            </p>
+            <button
+              onClick={() => {
+                setIsDeleting(false);
+              }}
+            >
+              Cancel
+            </button>
+            <button onClick={() => {}}>Delete</button>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </section>
     </div>
   );
