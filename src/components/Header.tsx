@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useUserDispatch, useUserSelector } from "../store/hooks";
+import { removeUser } from "../store/userSlice";
 import Link from "./Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,20 +9,28 @@ import WorkspacesIcon from "@mui/icons-material/Workspaces";
 export default function Header() {
   const [open, setOpen] = useState(false);
 
+  const user = useUserSelector((state) => state.user);
+
+  const dispatch = useUserDispatch();
+
   let links = [
     {
       text: "Projects",
       path: "/",
     },
     {
-      text: "Login",
-      path: "/login",
+      text: user.user_id !== 0 ? "Log Out" : "Log In",
+      path: user.user_id !== 0 ? "/logout" : "/login",
     },
     {
       text: "Profile",
       path: "/profile",
     },
   ];
+
+  const handleLogOut = () => {
+    dispatch(removeUser());
+  };
 
   return (
     <header className="p-10 md:flex md:flex-row md:justify-between border-b-4 border-sky-700 bg-sky-50">
@@ -36,9 +46,9 @@ export default function Header() {
           }}
         >
           {!open ? (
-            <MenuIcon fontSize="large" color="primary"/>
+            <MenuIcon fontSize="large" color="primary" />
           ) : (
-            <CloseIcon fontSize="large" color="primary"/>
+            <CloseIcon fontSize="large" color="primary" />
           )}
         </div>
         <ul
@@ -48,14 +58,24 @@ export default function Header() {
               : "left-[-490px] opacity-0"
           } md:opacity-100 md:border-none`}
         >
-          {links.map(({ text, path }) => {
-            return (
+          {links.map(({ text, path }, index) => {
+            return path !== "/logout" ? (
               <li
-                key={text}
+                key={index}
                 className="md:my-0 my-7 md:last:my-0 p-2 hover:bg-sky-100 md:hover:bg-inherit rounded-md"
               >
                 <Link text={text} path={path}></Link>
               </li>
+            ) : (
+              <button
+                key={index}
+                onClick={() => {
+                  handleLogOut();
+                }}
+                className="text-sky-500 text-2xl font-medium hover:text-sky-700 md:my-0 my-7 md:last:my-0 p-2 hover:bg-sky-100 md:hover:bg-inherit rounded-md"
+              >
+                Log Out
+              </button>
             );
           })}
         </ul>
