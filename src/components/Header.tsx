@@ -32,8 +32,6 @@ export default function Header() {
     dispatch(removeUser());
   };
 
-  console.log(user);
-
   return (
     <header className="p-10 md:flex md:flex-row md:justify-between border-b-4 border-sky-700 bg-sky-50">
       <div className="flex items-center gap-2">

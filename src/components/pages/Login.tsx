@@ -51,21 +51,17 @@ export default function Login() {
       name: string;
       username: string;
       avatar_url: string;
+      bio: string;
     };
 
-    const user = { ...extractedData, bio: "I like trains", user_id: 22 };
-
-    console.log(user);
-
     createUser({
-      user: user,
-    }).then((response) => {
-      console.log(response);
+      user: extractedData,
+    }).then((user: User) => {
+      dispatch(setUser(user));
+      navigate("/");
     });
 
-    // dispatch(setUser({ ...extractedData, user_id: 2 }));
-
-    // signUpForm.current?.clear();
+    signUpForm.current?.clear();
   }
 
   return (
@@ -82,8 +78,13 @@ export default function Login() {
           <Input type="text" id="username" label="username" required />
           <Input type="text" id="name" label="name" required />
           <Input type="password" id="password" label="password" required />
-          <TextArea id="bio" label="bio" placeholder="Tell us about yourself" />
-          <Input type="text" id="avatar" label="avatar" required />
+          <TextArea
+            id="bio"
+            label="bio"
+            placeholder="Tell us about yourself"
+            required
+          />
+          <Input type="text" id="avatar_url" label="avatar" required />
           <Button text="Sign Up" />
         </Form>
       )}
