@@ -18,7 +18,7 @@ export default function ProjectComponent({ project }: Props) {
   }, []);
 
   return (
-    <div className="p-2.5 bg-sky-100 flex-[1_0_35%] md:flex-[1_0_21%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer">
+    <div className="p-3 bg-sky-100 flex-[1_0_90%] md:flex-[1_0_47%] 2xl:flex-[1_0_31%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition">
       <h2 className="text-sky-800 text-xl font-medium text-center">
         {project.project_name}
       </h2>
@@ -37,6 +37,9 @@ export default function ProjectComponent({ project }: Props) {
           return <SkillComponent key={index} skill={skill} />;
         })}
       </ul>
+      <p className="text-sky-600 text-lg font-medium">
+        People required: {project.required_members}
+      </p>
     </div>
   );
 }
