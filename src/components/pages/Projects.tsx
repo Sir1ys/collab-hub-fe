@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProjects } from "../../utils/projects_api";
 import { type Project } from "../../types/types";
-import ProjectComponent from "../Project";
+import ProjectComponent from "../ProjectComponent";
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -11,7 +11,7 @@ export default function Projects() {
   }, []);
 
   return (
-    <div>
+    <div className="gap-8 p-5 flex flex-wrap">
       {projects.map((project: Project) => {
         return <ProjectComponent project={project} />;
       })}

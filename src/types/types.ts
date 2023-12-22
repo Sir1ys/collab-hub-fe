@@ -20,4 +20,5 @@ export type Project = {
 export type Skill = {
   skill_id: number;
   skill_name: string;
+  skill_avatar: string;
 };
