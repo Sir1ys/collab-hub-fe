@@ -9,3 +9,9 @@ export const getProjects = () => {
     return response.data.projects;
   });
 };
+
+export const getProjecSkill = (projectId: number) => {
+  return projectsAPI.get(`${projectId}/skills`).then((response) => {
+    return response.data.skills;
+  });
+};
