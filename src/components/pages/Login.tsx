@@ -10,11 +10,6 @@ import { createUser, getUserByEmail } from "../../utils/users_api";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  // const [isLoading, setIsLoading] = useState(true);
-  // useEffect(() => {
-  //   setIsLoading(true);
-  // }, []);
-  // if (isLoading) return <Loader />;
   const [signIn, setSignIn] = useState(true);
   const navigate = useNavigate();
   const dispatch = useUserDispatch();
