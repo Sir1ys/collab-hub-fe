@@ -9,7 +9,7 @@ export const getAllUsers = () => {
     return response.data.skills;
   });
 };
-export const getUsersById = (user_id: any) => {
+export const getUserById = (user_id: any) => {
   return usersAPI.get(`/${user_id}`).then((response) => {
     return response.data.skills;
   });

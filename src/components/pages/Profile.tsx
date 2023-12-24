@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
-import { getAllSkills } from "../../utils/skills_api";
+import { getAllSkills, getSkillsById } from "../../utils/skills_api";
+import { getUserById } from "../../utils/users_api";
 
 export default function Profile() {
   const [info, setInfo] = useState({});
+  const [allSkills, setAllSkills] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
   const [isEditingSkill, setIsEditingSkill] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    // getSkillsById(user_id).then((skills) => {
+    //   setUserSkills(skills);
+    // });
     getAllSkills()
       .then((skills) => {
-        setUserSkills(skills);
+        setAllSkills(skills);
       })
       .catch((err) => console.log(err));
+
+    // getUserById(user_id)
+    // .then((userInfo) => {
+    //   setInfo(userInfo)
+    // })
   }, []);
 
   const handleAddSkill = (e: any) => {
@@ -25,7 +35,6 @@ export default function Profile() {
       isEditingSkill ? setIsEditingSkill(false) : setIsEditingSkill(true);
     }
   };
-  console.log(userSkills);
 
   return (
     <div className="p-16">
@@ -50,21 +59,16 @@ export default function Profile() {
         {isEditingSkill ? (
           <form className="flex flex-col">
             <label htmlFor="addSkill">Add new skill</label>
-            <select name="skills">
-              {userSkills.map((skill) => {
+            <select className="mb-4 p-2 rounded-md" name="skills">
+              <option>Select skill</option>
+              {allSkills.map((skill: any) => {
                 return (
                   <option value={skill.skill_name} key={skill.skill_name}>
-                    {skill}
+                    {skill.skill_name}
                   </option>
                 );
               })}
             </select>
-            <input
-              className="mb-4 p-2 rounded-md"
-              required
-              placeholder="e.g. C++"
-              type="text"
-            />
             <select className="mb-4 p-2 rounded-md" name="proficiency">
               <option value="proficiency">Proficiency</option>
               <option value="proficiency">Beginner (0-1 years)</option>
