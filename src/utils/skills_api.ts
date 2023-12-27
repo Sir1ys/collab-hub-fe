@@ -9,9 +9,3 @@ export const getAllSkills = () => {
     return response.data.skills;
   });
 };
-
-export const getSkillsById = (user_id: any) => {
-  return skillsAPI.get(`/${user_id}`).then((response) => {
-    return response.data.skills;
-  });
-};
