@@ -16,8 +16,14 @@ export const getProjectSkills = (projectId: number) => {
   });
 };
 
-export const getProjectStatus = (prjectId: number) => {
-  return projectsAPI.get(`${prjectId}/status`).then((response) => {
+export const getProjectStatus = (projectId: number) => {
+  return projectsAPI.get(`${projectId}/status`).then((response) => {
     return response.data.status;
   });
+};
+
+export const postMemberRequest = (projectId: number, userId: any) => {
+  return projectsAPI
+    .post(`${projectId}/member-request`, userId)
+    .then((response) => response.data);
 };

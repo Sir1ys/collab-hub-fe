@@ -2,8 +2,15 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { dateFromTimestamp } from "../../utils/dates";
 import { Project, Skill, Status } from "../../types/types";
-import { getProjectSkills, getProjectStatus } from "../../utils/projects_api";
+import {
+  getProjectSkills,
+  getProjectStatus,
+  postMemberRequest,
+} from "../../utils/projects_api";
+import { useUserSelector } from "../../store/hooks";
 import SkillComponent from "../SkillComponent";
+import Button from "../Button";
+import Modal from "../Modal";
 
 type LocationState = {
   state: Project;
@@ -14,6 +21,9 @@ export default function ProjectPage() {
   const { state: project } = location as LocationState;
   const [skills, setSkills] = useState<Skill[]>([]);
   const [status, setStatus] = useState<Status>("open");
+  const [active, setActive] = useState<boolean>(false);
+  const [textModal, setTextModal] = useState<string>("");
+  const user = useUserSelector((state) => state.user);
 
   useEffect(() => {
     getProjectSkills(project.project_id).then((skills: Skill[]) => {
@@ -23,6 +33,17 @@ export default function ProjectPage() {
       setStatus(status);
     });
   }, []);
+
+  const handleApply = () => {
+    postMemberRequest(project.project_id, {
+      memberRequest: { user_id: user.user_id },
+    })
+      .then((response) => console.log(response))
+      .catch((err) => {
+        setTextModal(err.response.data.msg);
+        setActive(true);
+      });
+  };
 
   return (
     <article className="max-w-5xl m-5 px-12 py-12 bg-sky-200 flex flex-col gap-3 rounded-lg">
@@ -48,6 +69,17 @@ export default function ProjectPage() {
       <p className="text-sky-600 text-lg font-medium">
         People required: {project.required_members}
       </p>
+      {project.project_author !== user.user_id ? (
+        <Button
+          text="Apply"
+          styles="w-24"
+          onClick={handleApply}
+          disabled={user.user_id !== 0 ? false : true}
+        />
+      ) : null}
+      <Modal active={active} setActive={setActive}>
+        {textModal}
+      </Modal>
     </article>
   );
 }
