@@ -10,8 +10,14 @@ export const getProjects = () => {
   });
 };
 
-export const getProjecSkill = (projectId: number) => {
+export const getProjectSkills = (projectId: number) => {
   return projectsAPI.get(`${projectId}/skills`).then((response) => {
     return response.data.skills;
+  });
+};
+
+export const getProjectStatus = (prjectId: number) => {
+  return projectsAPI.get(`${prjectId}/status`).then((response) => {
+    return response.data.status;
   });
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { type Project, type Skill } from "../types/types";
-import { getProjecSkill } from "../utils/projects_api";
+import { getProjectSkills } from "../utils/projects_api";
 import SkillComponent from "./SkillComponent";
 import { dateFromTimestamp } from "../utils/dates";
 
@@ -14,7 +14,7 @@ export default function ProjectComponent({ project }: Props) {
   let navigate = useNavigate();
 
   useEffect(() => {
-    getProjecSkill(project.project_id).then((skills: Skill[]) => {
+    getProjectSkills(project.project_id).then((skills: Skill[]) => {
       setSkills(skills);
     });
   }, []);

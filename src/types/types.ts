@@ -22,3 +22,5 @@ export type Skill = {
   skill_name: string;
   skill_avatar: string;
 };
+
+export type Status = "open" | "in progress" | "completed";
