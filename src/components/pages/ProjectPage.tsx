@@ -25,18 +25,19 @@ export default function ProjectPage() {
   }, []);
 
   return (
-    <article className="m-5 p-3 bg-sky-100 flex flex-col gap-3">
-      <h2 className="text-sky-800 text-xl font-medium text-center">
+    <article className="max-w-5xl m-5 px-12 py-12 bg-sky-200 flex flex-col gap-3 rounded-lg">
+      <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
         {project.project_name}
+        <p className="px-3 py-1 absolute top-0 right-0 bg-sky-800 text-sky-50 text-sm rounded-2xl">
+          {status}
+        </p>
       </h2>
       <p className="text-right text-sky-600">
         {`${dateFromTimestamp(project.project_created_at.toString())}`}
       </p>
       <h3 className="text-sky-600 text-lg font-medium">
-        Description:{" "}
-        <p className="text-sky-400 line-clamp-3">
-          {project.project_description}
-        </p>
+        Description:
+        <p className="text-sky-400">{project.project_description}</p>
       </h3>
       <h3 className="text-sky-600 text-lg font-medium">Skills required: </h3>
       <ul className="flex gap-2 items-center justify-start flex-wrap">
