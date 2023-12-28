@@ -54,7 +54,7 @@ export default function Header() {
         <ul
           className={`md:flex gap-7 absolute md:static bg-sky-50 md:bg-inherit md:z-auto z-[2] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-300 ease-in ${
             open
-              ? "top-20 opacity-100 border-b-4 border-sky-700"
+              ? "top-20 opacity-100 border-b-4 border-sky-700 h-screen overflow-hidden"
               : "left-[-490px] opacity-0"
           } md:opacity-100 md:border-none`}
         >

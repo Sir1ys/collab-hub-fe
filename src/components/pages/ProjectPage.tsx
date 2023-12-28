@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { dateFromTimestamp } from "../../utils/dates";
-import { Project, Skill, Status } from "../../types/types";
+import {
+  type MemberRequest,
+  type Project,
+  type Skill,
+  type Status,
+} from "../../types/types";
 import {
   getProjectSkills,
   getProjectStatus,
   postMemberRequest,
+  deleteMemberRequest,
+  getMemberRequestsByProjectId,
 } from "../../utils/projects_api";
 import { useUserSelector } from "../../store/hooks";
 import SkillComponent from "../SkillComponent";
@@ -21,6 +28,7 @@ export default function ProjectPage() {
   const { state: project } = location as LocationState;
   const [skills, setSkills] = useState<Skill[]>([]);
   const [status, setStatus] = useState<Status>("open");
+  const [memberRequests, setMemberRequests] = useState<MemberRequest[]>([]);
   const [active, setActive] = useState<boolean>(false);
   const [textModal, setTextModal] = useState<string>("");
   const user = useUserSelector((state) => state.user);
@@ -32,13 +40,33 @@ export default function ProjectPage() {
     getProjectStatus(project.project_id).then((status: Status) => {
       setStatus(status);
     });
+    getMemberRequestsByProjectId(project.project_id).then((response) => {
+      setMemberRequests(response);
+    });
   }, []);
 
   const handleApply = () => {
     postMemberRequest(project.project_id, {
       memberRequest: { user_id: user.user_id },
     })
-      .then((response) => console.log(response))
+      .then((response) =>
+        setMemberRequests((prevState) => {
+          return [...prevState, response];
+        })
+      )
+      .catch((err) => {
+        setTextModal(err.response.data.msg);
+        setActive(true);
+      });
+  };
+
+  const handleCancelRequest = () => {
+    deleteMemberRequest(project.project_id, user.user_id)
+      .then(() => {
+        setMemberRequests((prevState) => {
+          return prevState.filter((member) => member.user_id !== user.user_id);
+        });
+      })
       .catch((err) => {
         setTextModal(err.response.data.msg);
         setActive(true);
@@ -71,9 +99,17 @@ export default function ProjectPage() {
       </p>
       {project.project_author !== user.user_id ? (
         <Button
-          text="Apply"
-          styles="w-24"
-          onClick={handleApply}
+          text={
+            memberRequests.find((member) => member.user_id === user.user_id)
+              ? "Unsubscribe"
+              : "Apply"
+          }
+          styles="w-28"
+          onClick={
+            memberRequests.find((member) => member.user_id === user.user_id)
+              ? handleCancelRequest
+              : handleApply
+          }
           disabled={user.user_id !== 0 ? false : true}
         />
       ) : null}

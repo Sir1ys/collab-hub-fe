@@ -24,3 +24,8 @@ export type Skill = {
 };
 
 export type Status = "open" | "in progress" | "completed";
+
+export type MemberRequest = {
+  user_id: number;
+  username: string;
+};

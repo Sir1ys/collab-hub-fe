@@ -22,8 +22,18 @@ export const getProjectStatus = (projectId: number) => {
   });
 };
 
+export const getMemberRequestsByProjectId = (projectId: number) => {
+  return projectsAPI
+    .get(`${projectId}/member-request`)
+    .then((response) => response.data.memberRequests);
+};
+
 export const postMemberRequest = (projectId: number, userId: any) => {
   return projectsAPI
     .post(`${projectId}/member-request`, userId)
     .then((response) => response.data);
+};
+
+export const deleteMemberRequest = (projectId: number, userId: any) => {
+  return projectsAPI.delete(`${projectId}/member-request/${userId}`);
 };

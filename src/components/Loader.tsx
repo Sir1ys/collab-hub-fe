@@ -1,6 +1,6 @@
 export default function Loader() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-screen w-screen bg-sky-50 absolute top-0 left-0">
       <svg
         className="animate-spin"
         fill="none"
