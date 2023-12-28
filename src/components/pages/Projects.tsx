@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProjects } from "../../utils/projects_api";
 import { type Project } from "../../types/types";
-import { useUserSelector } from "../../store/hooks";
-import ProjectComponent from "../ProjectComponent";
+import ProjectsList from "../ProjectsList";
 import Loader from "../Loader";
 import Button from "../Button";
 
@@ -10,7 +9,6 @@ export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [numberOfProjects, setNumberOfProjects] = useState(6);
   const [isLoading, setIsLoading] = useState(true);
-  const user = useUserSelector((state) => state.user);
 
   useEffect(() => {
     getProjects().then((projects: Project[]) => {
@@ -22,15 +20,7 @@ export default function Projects() {
   return (
     <section className="flex flex-col gap-5 mb-5">
       <div className="gap-8 p-5 flex flex-wrap">
-        {projects
-          .map((project: Project, index: number) => {
-            return project.project_author === user.user_id ? (
-              <></>
-            ) : (
-              <ProjectComponent key={index} project={project} />
-            );
-          })
-          .slice(0, numberOfProjects)}
+        <ProjectsList projects={projects} numberOfProjects={numberOfProjects} />
       </div>
       <Button
         styles="w-40 self-center"
