@@ -19,6 +19,10 @@ export default function Header() {
       path: "/",
     },
     {
+      text: "My Projects",
+      path: "/myprojects",
+    },
+    {
       text: user.user_id !== 0 ? "Log Out" : "Log In",
       path: user.user_id !== 0 ? "/logout" : "/login",
     },

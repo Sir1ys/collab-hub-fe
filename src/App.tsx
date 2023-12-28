@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ProjectPage from "./components/pages/ProjectPage";
 import Projects from "./components/pages/Projects";
+import MyProjects from "./components/pages/MyProjects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
 import Footer from "./components/Footer";
@@ -16,6 +17,7 @@ function App() {
       <main className="flex justify-center">
         <Routes>
           <Route path="/" element={<Projects />} />
+          <Route path="/myprojects" element={<MyProjects />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/articles/:article_id" element={<ProjectPage />} />
