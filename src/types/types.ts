@@ -22,3 +22,10 @@ export type Skill = {
   skill_name: string;
   skill_avatar: string;
 };
+
+export type Status = "open" | "in progress" | "completed";
+
+export type MemberRequest = {
+  user_id: number;
+  username: string;
+};

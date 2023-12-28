@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import ProjectPage from "./components/pages/ProjectPage";
 import Projects from "./components/pages/Projects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Projects />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/articles/:article_id" element={<ProjectPage />} />
         </Routes>
       </main>
       <Footer />

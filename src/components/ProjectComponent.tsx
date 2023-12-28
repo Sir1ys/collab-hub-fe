@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { type Project, type Skill } from "../types/types";
-import { getProjecSkill } from "../utils/projects_api";
+import { getProjectSkills } from "../utils/projects_api";
 import SkillComponent from "./SkillComponent";
 import { dateFromTimestamp } from "../utils/dates";
 
@@ -10,15 +11,21 @@ type Props = {
 
 export default function ProjectComponent({ project }: Props) {
   const [skills, setSkills] = useState<Skill[]>([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
-    getProjecSkill(project.project_id).then((skills: Skill[]) => {
+    getProjectSkills(project.project_id).then((skills: Skill[]) => {
       setSkills(skills);
     });
   }, []);
 
   return (
-    <div className="p-3 bg-sky-100 flex-[1_0_90%] md:flex-[1_0_47%] 2xl:flex-[1_0_31%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition">
+    <article
+      className="p-3 bg-sky-100 flex-[1_0_90%] md:flex-[1_0_47%] 2xl:flex-[1_0_31%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition"
+      onClick={() => {
+        navigate(`/articles/${project.project_id}`, { state: project });
+      }}
+    >
       <h2 className="text-sky-800 text-xl font-medium text-center">
         {project.project_name}
       </h2>
@@ -40,6 +47,6 @@ export default function ProjectComponent({ project }: Props) {
       <p className="text-sky-600 text-lg font-medium">
         People required: {project.required_members}
       </p>
-    </div>
+    </article>
   );
 }
