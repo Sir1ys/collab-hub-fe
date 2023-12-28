@@ -1,13 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type User = {
-  user_id: number;
-  username: string;
-  email: string;
-  name: string;
-  bio: string;
-  avatar_url: string;
-};
+import { type User } from "../types/types";
 
 const initialState: User = {
   user_id: 0,
@@ -23,6 +15,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<User>) {
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return (state = { ...action.payload });
     },
     removeUser(state) {

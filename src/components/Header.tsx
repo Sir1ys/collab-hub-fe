@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserDispatch, useUserSelector } from "../store/hooks";
 import { removeUser } from "../store/userSlice";
 import Link from "./Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
+import { setUser } from "../store/userSlice";
+import { type User } from "../types/types";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-
   const user = useUserSelector((state) => state.user);
-
   const dispatch = useUserDispatch();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser !== "undefined" && savedUser !== null) {
+      const savedUser: User = JSON.parse(`${localStorage.getItem("user")}`);
+      dispatch(setUser(savedUser));
+    }
+  }, []);
 
   let links = [
     {
@@ -34,6 +42,7 @@ export default function Header() {
 
   const handleLogOut = () => {
     dispatch(removeUser());
+    localStorage.clear();
   };
 
   return (
