@@ -45,3 +45,9 @@ export const patchUser = (user_id: any, user: any) => {
     return response.data.user;
   });
 }
+
+export const deleteUserSkill = (user_id: number, skill_id: number) => {
+  return usersAPI.delete(`/${user_id}/skills/${skill_id}`).then((response) => {
+    return response.data.skill;
+  });
+}
