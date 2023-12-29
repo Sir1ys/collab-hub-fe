@@ -23,8 +23,8 @@ export default function Header() {
       path: user.user_id !== 0 ? "/logout" : "/login",
     },
     {
-      text: "Profile",
-      path: "/profile",
+      text: user.user_id !== 0 ? "Profile" : "",
+      path: user.user_id !== 0 ? "/profile": ""
     },
   ];
 
