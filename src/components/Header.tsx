@@ -10,6 +10,7 @@ import { type User } from "../types/types";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [dropdown, setDropDown] = useState(false);
   const user = useUserSelector((state) => state.user);
   const dispatch = useUserDispatch();
 
@@ -21,14 +22,14 @@ export default function Header() {
     }
   }, []);
 
-  let links = [
+  let mainLinks = [
     {
       text: "Projects",
       path: "/",
     },
     {
       text: "My Projects",
-      path: "/myprojects",
+      path: "/projects/myprojects/created",
     },
     {
       text: user.user_id !== 0 ? "Log Out" : "Log In",
@@ -37,6 +38,21 @@ export default function Header() {
     {
       text: "Profile",
       path: "/profile",
+    },
+  ];
+
+  let secondaryLinks = [
+    {
+      text: "Created",
+      path: "/projects/myprojects/created",
+    },
+    {
+      text: "Involved",
+      path: "/projects/myprojects/involved",
+    },
+    {
+      text: "Requested",
+      path: "/projects/myprojects/requested",
     },
   ];
 
@@ -71,13 +87,39 @@ export default function Header() {
               : "left-[-490px] opacity-0"
           } md:opacity-100 md:border-none`}
         >
-          {links.map(({ text, path }, index) => {
+          {mainLinks.map(({ text, path }, index) => {
             return path !== "/logout" ? (
               <li
                 key={index}
-                className="md:my-0 my-7 md:last:my-0 p-2 hover:bg-sky-100 md:hover:bg-inherit rounded-md"
+                className="md:my-0 my-7 md:last:my-0 md:hover:bg-inherit rounded-md"
               >
-                <Link text={text} path={path}></Link>
+                {text !== "My Projects" ? (
+                  <Link text={text} path={path} styles="p-2" />
+                ) : (
+                  <>
+                    <Link
+                      text={text}
+                      path={path}
+                      styles={"hidden md:block"}
+                      onMouseOver={() => setDropDown(true)}
+                    />
+                    <ul
+                      className={`w-48 z-10 flex flex-col gap-7 md:p-3 md:bg-sky-50 md:absolute rounded-xl md:border md:border-sky-200 md:shadow-xl ${
+                        dropdown ? "md:flex" : "md:hidden"
+                      }`}
+                      onClick={() => setDropDown(false)}
+                      onMouseLeave={() => setDropDown(false)}
+                    >
+                      {secondaryLinks.map(({ text, path }, index) => {
+                        return (
+                          <li key={index}>
+                            <Link text={text} path={path} styles="p-2" />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </>
+                )}
               </li>
             ) : (
               <button
