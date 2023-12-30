@@ -127,7 +127,7 @@ export default function Header() {
                 onClick={() => {
                   handleLogOut();
                 }}
-                className="text-sky-500 text-2xl font-medium hover:text-sky-700 md:my-0 my-7 md:last:my-0 p-2 hover:bg-sky-100 md:hover:bg-inherit rounded-md"
+                className="text-sky-500 text-2xl font-medium hover:text-sky-700 md:my-0 pl-2 md:pl-0"
               >
                 Log Out
               </button>
