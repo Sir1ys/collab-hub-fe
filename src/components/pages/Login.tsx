@@ -62,13 +62,21 @@ export default function Login() {
   return (
     <div>
       {signIn ? (
-        <Form onSave={handleSignIn} ref={signInForm} signUp={false}>
+        <Form
+          onSave={handleSignIn}
+          ref={signInForm}
+          styles={"flex flex-col gap-10"}
+        >
           <Input type="email" id="email" label="email" required />
           <Input type="password" id="password" label="password" required />
           <Button text="Sign In" />
         </Form>
       ) : (
-        <Form onSave={handleSignUp} ref={signUpForm} signUp={true}>
+        <Form
+          onSave={handleSignUp}
+          ref={signUpForm}
+          styles="grid grid-cols-1 md:grid-cols-2 gap-10"
+        >
           <Input type="email" id="email" label="email" required />
           <Input type="text" id="username" label="username" required />
           <Input type="text" id="name" label="name" required />

@@ -17,11 +17,17 @@ function App() {
       <main className="flex justify-center">
         <Routes>
           <Route path="/" element={<Projects />} />
-          <Route path="projects/myprojects/created" element={<MyProjects />} />
-          <Route path="projects/myprojects/involved" element={<MyProjects />} />
+          <Route
+            path="projects/myprojects/created"
+            element={<MyProjects request="Created" />}
+          />
+          <Route
+            path="projects/myprojects/involved"
+            element={<MyProjects request="Participated" />}
+          />
           <Route
             path="projects/myprojects/requested"
-            element={<MyProjects />}
+            element={<MyProjects request="Requested" />}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
