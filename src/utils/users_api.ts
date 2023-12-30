@@ -26,3 +26,21 @@ export const createUser = (user: any) => {
     return response.data.user;
   });
 };
+
+export const getProjectsCreatedByUser = (userId: number) => {
+  return usersAPI
+    .get(`${userId}/my-projects`)
+    .then((response) => response.data.projects);
+};
+
+export const getProjectsParticipatedByUser = (userId: number) => {
+  return usersAPI
+    .get(`${userId}/project-associate`)
+    .then((response) => response.data.projects);
+};
+
+export const getProjectsRequestedByUser = (userId: number) => {
+  return usersAPI
+    .get(`${userId}/my-requests`)
+    .then((response) => response.data.projects);
+};
