@@ -51,3 +51,9 @@ export const deleteUserSkill = (user_id: number, skill_id: number) => {
     return response.data.skill;
   });
 }
+
+export const deleteUser = (user_id: number) => {
+  return usersAPI.delete(`/${user_id}`).then((response) => {
+    return response
+  });
+}

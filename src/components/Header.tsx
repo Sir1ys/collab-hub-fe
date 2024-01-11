@@ -5,9 +5,11 @@ import Link from "./Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const user = useUserSelector((state) => state.user);
 
@@ -25,11 +27,12 @@ export default function Header() {
     {
       text: user.user_id !== 0 ? "Profile" : "",
       path: user.user_id !== 0 ? "/profile": ""
-    },
+    }
   ];
 
   const handleLogOut = () => {
     dispatch(removeUser());
+    navigate("/");
   };
 
   return (
