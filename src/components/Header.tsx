@@ -7,10 +7,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import { setUser } from "../store/userSlice";
 import { type User } from "../types/types";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropDown] = useState(false);
+  const navigate = useNavigate();
+
   const user = useUserSelector((state) => state.user);
   const dispatch = useUserDispatch();
 
@@ -36,9 +39,9 @@ export default function Header() {
       path: user.user_id !== 0 ? "/logout" : "/login",
     },
     {
-      text: "Profile",
-      path: "/profile",
-    },
+      text: user.user_id !== 0 ? "Profile" : "",
+      path: user.user_id !== 0 ? "/profile": ""
+    }
   ];
 
   let secondaryLinks = [
@@ -59,6 +62,8 @@ export default function Header() {
   const handleLogOut = () => {
     dispatch(removeUser());
     localStorage.clear();
+    navigate("/");
+
   };
 
   return (
