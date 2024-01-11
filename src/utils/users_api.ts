@@ -27,6 +27,23 @@ export const createUser = (user: any) => {
   });
 };
 
+export const getProjectsCreatedByUser = (userId: number) => {
+  return usersAPI
+    .get(`${userId}/my-projects`)
+    .then((response) => response.data.projects);
+};
+
+export const getProjectsParticipatedByUser = (userId: number) => {
+  return usersAPI
+    .get(`${userId}/project-associate`)
+    .then((response) => response.data.projects);
+};
+
+export const getProjectsRequestedByUser = (userId: number) => {
+  return usersAPI
+    .get(`${userId}/my-requests`)
+    .then((response) => response.data.projects);
+};
 export const getSkillsById = (user_id: any) => {
   return usersAPI.get(`/${user_id}/skills`).then((response) => {
     return response.data.skills;

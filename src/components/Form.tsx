@@ -11,12 +11,12 @@ export type FormHandle = {
 };
 
 type Props = ComponentPropsWithoutRef<"form"> & {
-  signUp: boolean;
+  styles?: string;
   onSave: (value: unknown) => void;
 };
 
 const Form = forwardRef<FormHandle, Props>(function Form(
-  { onSave, children, signUp, ...otherProps },
+  { onSave, styles, children, ...otherProps },
   ref
 ) {
   const form = useRef<HTMLFormElement>(null);
@@ -39,7 +39,7 @@ const Form = forwardRef<FormHandle, Props>(function Form(
 
   return (
     <form
-      className={!signUp ? "flex flex-col gap-10 " : "grid grid-cols-1 md:grid-cols-2 gap-10"}
+      className={`${styles}`}
       {...otherProps}
       onSubmit={handleSubmit}
       ref={form}

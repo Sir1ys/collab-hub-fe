@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserDispatch, useUserSelector } from "../store/hooks";
 import { removeUser } from "../store/userSlice";
 import Link from "./Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
+import { setUser } from "../store/userSlice";
+import { type User } from "../types/types";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [dropdown, setDropDown] = useState(false);
   const navigate = useNavigate();
 
   const user = useUserSelector((state) => state.user);
-
   const dispatch = useUserDispatch();
 
-  let links = [
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser !== "undefined" && savedUser !== null) {
+      const savedUser: User = JSON.parse(`${localStorage.getItem("user")}`);
+      dispatch(setUser(savedUser));
+    }
+  }, []);
+
+  let mainLinks = [
     {
       text: "Projects",
       path: "/",
+    },
+    {
+      text: "My Projects",
+      path: "/projects/myprojects/created",
     },
     {
       text: user.user_id !== 0 ? "Log Out" : "Log In",
@@ -30,9 +44,26 @@ export default function Header() {
     }
   ];
 
+  let secondaryLinks = [
+    {
+      text: "Created",
+      path: "/projects/myprojects/created",
+    },
+    {
+      text: "Involved",
+      path: "/projects/myprojects/involved",
+    },
+    {
+      text: "Requested",
+      path: "/projects/myprojects/requested",
+    },
+  ];
+
   const handleLogOut = () => {
     dispatch(removeUser());
+    localStorage.clear();
     navigate("/");
+
   };
 
   return (
@@ -61,13 +92,39 @@ export default function Header() {
               : "left-[-490px] opacity-0"
           } md:opacity-100 md:border-none`}
         >
-          {links.map(({ text, path }, index) => {
+          {mainLinks.map(({ text, path }, index) => {
             return path !== "/logout" ? (
               <li
                 key={index}
-                className="md:my-0 my-7 md:last:my-0 p-2 hover:bg-sky-100 md:hover:bg-inherit rounded-md"
+                className="md:my-0 my-7 md:last:my-0 md:hover:bg-inherit rounded-md"
               >
-                <Link text={text} path={path}></Link>
+                {text !== "My Projects" ? (
+                  <Link text={text} path={path} styles="p-2" />
+                ) : (
+                  <>
+                    <Link
+                      text={text}
+                      path={path}
+                      styles={"hidden md:block"}
+                      onMouseOver={() => setDropDown(true)}
+                    />
+                    <ul
+                      className={`w-48 z-10 flex flex-col gap-7 md:p-3 md:bg-sky-50 md:absolute rounded-xl md:border md:border-sky-200 md:shadow-xl ${
+                        dropdown ? "md:flex" : "md:hidden"
+                      }`}
+                      onClick={() => setDropDown(false)}
+                      onMouseLeave={() => setDropDown(false)}
+                    >
+                      {secondaryLinks.map(({ text, path }, index) => {
+                        return (
+                          <li key={index}>
+                            <Link text={text} path={path} styles="p-2" />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </>
+                )}
               </li>
             ) : (
               <button
@@ -75,7 +132,7 @@ export default function Header() {
                 onClick={() => {
                   handleLogOut();
                 }}
-                className="text-sky-500 text-2xl font-medium hover:text-sky-700 md:my-0 my-7 md:last:my-0 p-2 hover:bg-sky-100 md:hover:bg-inherit rounded-md"
+                className="text-sky-500 text-2xl font-medium hover:text-sky-700 md:my-0 pl-2 md:pl-0"
               >
                 Log Out
               </button>
