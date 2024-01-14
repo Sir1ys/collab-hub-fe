@@ -39,7 +39,7 @@ export default function Login() {
     signInForm.current?.clear();
   }
 
-  function handleSignUp(data: unknown) {
+  function handleSignUp(data: unknown){
     const extractedData = data as {
       email: string;
       password: string;
@@ -47,6 +47,7 @@ export default function Login() {
       username: string;
       avatar_url: string;
       bio: string;
+      github_url: string;
     };
 
     createUser({
@@ -87,6 +88,7 @@ export default function Login() {
             placeholder="Tell us about yourself"
             required
           />
+          <Input type="text" id="github_url" label="GitHub Url" required />
           <Input type="text" id="avatar_url" label="avatar" required />
           <Button text="Sign Up" />
         </Form>

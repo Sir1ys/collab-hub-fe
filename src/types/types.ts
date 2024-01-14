@@ -5,6 +5,7 @@ export type User = {
   name: string;
   username: string;
   avatar_url: string;
+  github_url: string;
   password?: string;
 };
 

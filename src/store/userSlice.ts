@@ -8,6 +8,7 @@ const initialState: User = {
   name: "",
   bio: "",
   avatar_url: "",
+  github_url: "",
 };
 
 export const userSlice = createSlice({
@@ -26,6 +27,7 @@ export const userSlice = createSlice({
         name: "",
         bio: "",
         avatar_url: "",
+        github_url: "",
       });
     },
   },

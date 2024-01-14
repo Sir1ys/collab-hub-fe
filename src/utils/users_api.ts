@@ -22,6 +22,8 @@ export const getUserByEmail = (email: string) => {
 };
 
 export const createUser = (user: any) => {
+  console.log(user);
+  
   return usersAPI.post(`/`, user).then((response) => {
     return response.data.user;
   });
