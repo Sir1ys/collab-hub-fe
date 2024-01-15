@@ -76,6 +76,7 @@ export default function SignUpForm() {
         {currentStepIndex + 1} / {steps.length}
       </div>
       <form onSubmit={handleSingUp} className="flex flex-col gap-6">
+        <h3 className="text-sky-800 text-center font-semibold text-xl">Sign Up</h3>
         {step}
         <div className="flex gap-2 justify-end">
           {isFirstStep && (

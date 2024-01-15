@@ -40,15 +40,20 @@ export default function Login() {
   return (
     <div className="relative p-10">
       {signIn ? (
-        <Form
-          onSave={handleSignIn}
-          ref={signInForm}
-          styles={"flex flex-col gap-10"}
-        >
-          <Input type="email" id="email" label="email" required />
-          <Input type="password" id="password" label="password" required />
-          <Button text="Sign In" />
-        </Form>
+        <>
+          <Form
+            onSave={handleSignIn}
+            ref={signInForm}
+            styles={"flex flex-col gap-10"}
+          >
+            <h3 className="text-sky-800 text-center font-semibold text-xl">
+              Sign In
+            </h3>
+            <Input type="email" id="email" label="email" required />
+            <Input type="password" id="password" label="password" required />
+            <Button text="Sign In" />
+          </Form>
+        </>
       ) : (
         <>
           <SignUpForm />
