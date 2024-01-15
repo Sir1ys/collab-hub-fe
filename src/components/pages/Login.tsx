@@ -4,18 +4,16 @@ import { setUser } from "../../store/userSlice";
 import Form, { type FormHandle } from "../Form";
 import Button from "../Button";
 import { Input } from "../Input";
-import { TextArea } from "../TextArea";
 import { type User } from "../../types/types";
-import { createUser, getUserByEmail } from "../../utils/users_api";
+import { getUserByEmail } from "../../utils/users_api";
 import { useNavigate } from "react-router-dom";
+import SignUpForm from "../SignUpForm";
 
 export default function Login() {
   const [signIn, setSignIn] = useState(true);
   const navigate = useNavigate();
   const dispatch = useUserDispatch();
-
   const signInForm = useRef<FormHandle>(null);
-  const signUpForm = useRef<FormHandle>(null);
 
   function handleSignIn(data: unknown) {
     const extractedData = data as { email: string; password: string };
@@ -39,57 +37,27 @@ export default function Login() {
     signInForm.current?.clear();
   }
 
-  function handleSignUp(data: unknown) {
-    const extractedData = data as {
-      email: string;
-      password: string;
-      name: string;
-      username: string;
-      avatar_url: string;
-      bio: string;
-    };
-
-    createUser({
-      user: extractedData,
-    }).then((user: User) => {
-      dispatch(setUser(user));
-      navigate("/");
-    });
-
-    signUpForm.current?.clear();
-  }
-
   return (
-    <div>
+    <div className="relative p-10">
       {signIn ? (
-        <Form
-          onSave={handleSignIn}
-          ref={signInForm}
-          styles={"flex flex-col gap-10"}
-        >
-          <Input type="email" id="email" label="email" required />
-          <Input type="password" id="password" label="password" required />
-          <Button text="Sign In" />
-        </Form>
+        <>
+          <Form
+            onSave={handleSignIn}
+            ref={signInForm}
+            styles={"flex flex-col gap-10"}
+          >
+            <h3 className="text-sky-800 text-center font-semibold text-xl">
+              Sign In
+            </h3>
+            <Input type="email" id="email" label="email" required />
+            <Input type="password" id="password" label="password" required />
+            <Button text="Sign In" />
+          </Form>
+        </>
       ) : (
-        <Form
-          onSave={handleSignUp}
-          ref={signUpForm}
-          styles="grid grid-cols-1 md:grid-cols-2 gap-10"
-        >
-          <Input type="email" id="email" label="email" required />
-          <Input type="text" id="username" label="username" required />
-          <Input type="text" id="name" label="name" required />
-          <Input type="password" id="password" label="password" required />
-          <TextArea
-            id="bio"
-            label="bio"
-            placeholder="Tell us about yourself"
-            required
-          />
-          <Input type="text" id="avatar_url" label="avatar" required />
-          <Button text="Sign Up" />
-        </Form>
+        <>
+          <SignUpForm />
+        </>
       )}
       <p
         className="cursor-pointer text-sky-600 hover:text-sky-800 mt-3 font-medium"

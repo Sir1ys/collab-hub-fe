@@ -5,7 +5,8 @@ export type User = {
   name: string;
   username: string;
   avatar_url: string;
-  password?: string;
+  github_url: string;
+  password: string;
 };
 
 export type Project = {
