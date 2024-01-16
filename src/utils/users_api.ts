@@ -52,7 +52,6 @@ export const getSkillsById = (user_id: any) => {
 
 export const addSkill = (user_id: any, skill: any) => {
   return usersAPI.post(`/${user_id}/skills`, skill).then((response) => {
-    console.log(response, " <RESPONSE")
     return response.data.skill;
   });
 }

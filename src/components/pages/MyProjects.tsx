@@ -26,19 +26,19 @@ export default function MyProjects({ request }: Props) {
 
   function handleCreateProject(data: unknown) {
     const extractedData = data as {
-      email: string;
-      password: string;
-      name: string;
-      username: string;
-      avatar_url: string;
-      bio: string;
+      projectName: string;
+      projectDescription: string;
+      membersRequired: number;
     };
+
+    console.log(extractedData);
 
     createProjectForm.current?.clear();
   }
 
-  const handleCreate = () => {
-    setActive(true);
+  const handleCancel = () => {
+    createProjectForm.current?.clear();
+    setActive(false);
   };
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function MyProjects({ request }: Props) {
               <Button
                 text="Create"
                 styles="self-end w-24"
-                onClick={handleCreate}
+                onClick={() => setActive(true)}
               />
             ) : (
               <></>
@@ -99,11 +99,11 @@ export default function MyProjects({ request }: Props) {
           </>
         )}
       </div>
-      <Modal active={active} setActive={setActive}>
+      <Modal active={active} setActive={setActive} styles="h-84 opacity-100">
         <Form
           onSave={handleCreateProject}
           ref={createProjectForm}
-          styles={"flex flex-col gap-4"}
+          styles={"flex flex-col gap-8"}
         >
           <Input type="text" id="projectName" label="Project Name" required />
           <TextArea
@@ -118,9 +118,15 @@ export default function MyProjects({ request }: Props) {
             label="Members Required"
             required
           />
-          <div className="flex gap-4">
-            <Button text="Create" styles="w-24" />
-            <Button text="Cancel" styles="w-24" />
+          <div className="flex gap-4 justify-end">
+            <Button type="submit" text="Create" styles="p-4" />
+            <Button
+              text="Cancel"
+              styles="p-4 bg-red-600 hover:bg-red-700 active:bg-red-800 text-stone-50 hover:text-stone-50 active:text-stone-50 border-red-700 hover:border-red-300 active:border-red-300"
+              onClick={() => {
+                handleCancel();
+              }}
+            />
           </div>
         </Form>
       </Modal>
