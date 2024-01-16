@@ -10,6 +10,12 @@ export const getProjects = () => {
   });
 };
 
+export const createProject = (project: any) => {
+  return projectsAPI.post("/", project).then((response) => {
+    return response.data.project;
+  });
+};
+
 export const getProjectSkills = (projectId: number) => {
   return projectsAPI.get(`${projectId}/skills`).then((response) => {
     return response.data.skills;
