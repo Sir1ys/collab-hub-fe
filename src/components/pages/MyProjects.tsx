@@ -12,6 +12,7 @@ import Form, { type FormHandle } from "../Form";
 import { Input } from "../Input";
 import { TextArea } from "../TextArea";
 import Modal from "../Modal";
+import { createProject } from "../../utils/projects_api";
 import Button from "../Button";
 
 type Props = {
@@ -28,10 +29,22 @@ export default function MyProjects({ request }: Props) {
     const extractedData = data as {
       projectName: string;
       projectDescription: string;
-      membersRequired: number;
+      membersRequired: string;
     };
 
-    console.log(extractedData);
+    const projectInfo = {
+      project_author: user.user_id,
+      project_name: extractedData.projectName,
+      project_description: extractedData.projectDescription,
+      project_created_at: 1669852800000,
+      required_members: parseInt(extractedData.membersRequired),
+    };
+
+    createProject(projectInfo)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
 
     createProjectForm.current?.clear();
   }

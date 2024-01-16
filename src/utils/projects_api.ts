@@ -10,8 +10,8 @@ export const getProjects = () => {
   });
 };
 
-export const createProject = (project: any) => {
-  return projectsAPI.post("/", project).then((response) => {
+export const createProject = (newProject: any) => {
+  return projectsAPI.post("/", { project: newProject }).then((response) => {
     return response.data.project;
   });
 };
