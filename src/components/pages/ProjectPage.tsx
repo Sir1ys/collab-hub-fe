@@ -46,9 +46,7 @@ export default function ProjectPage() {
   }, []);
 
   const handleApply = () => {
-    postMemberRequest(project.project_id, {
-      memberRequest: { user_id: user.user_id },
-    })
+    postMemberRequest(project.project_id, user.user_id)
       .then((response) =>
         setMemberRequests((prevState) => {
           return [...prevState, response];
