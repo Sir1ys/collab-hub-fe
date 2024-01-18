@@ -67,7 +67,8 @@ export default function CreatedProjects() {
           <>
             <Button
               text="Create"
-              styles="self-end w-24"
+              cancel={false}
+              styles="w-48 self-end"
               onClick={() => setActive(true)}
             />
             {projects.map((project: Project, index: number) => {
@@ -102,10 +103,11 @@ export default function CreatedProjects() {
             required
           />
           <div className="flex gap-4 justify-end">
-            <Button type="submit" text="Create" styles="p-4" />
+            <Button type="submit" text="Create" styles="p-4" cancel={false} />
             <Button
               text="Cancel"
-              styles="p-4 bg-red-600 hover:bg-red-700 active:bg-red-800 text-stone-50 hover:text-stone-50 active:text-stone-50 border-red-700 hover:border-red-300 active:border-red-300"
+              styles={"p-4"}
+              cancel={true}
               onClick={() => {
                 handleCancel();
               }}

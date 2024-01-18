@@ -18,6 +18,7 @@ import { useUserSelector } from "../../store/hooks";
 import SkillComponent from "../SkillComponent";
 import Button from "../Button";
 import Modal from "../Modal";
+import EditProjectModal from "../EditProjectModal";
 
 type LocationState = {
   state: Project;
@@ -30,6 +31,7 @@ export default function ProjectPage() {
   const [status, setStatus] = useState<Status>("open");
   const [memberRequests, setMemberRequests] = useState<MemberRequest[]>([]);
   const [active, setActive] = useState<boolean>(false);
+  const [activeEditModal, setActiveEditModal] = useState<boolean>(false);
   const [textModal, setTextModal] = useState<string>("");
   const user = useUserSelector((state) => state.user);
 
@@ -72,7 +74,7 @@ export default function ProjectPage() {
   };
 
   return (
-    <section className="flex justify-center items-center">
+    <section className="flex flex-col justify-center items-center">
       <article className="max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
         <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
           {project.project_name}
@@ -98,6 +100,7 @@ export default function ProjectPage() {
         </p>
         {project.project_author !== user.user_id ? (
           <Button
+            cancel={false}
             text={
               memberRequests.find((member) => member.user_id === user.user_id)
                 ? "Unsubscribe"
@@ -111,10 +114,21 @@ export default function ProjectPage() {
             }
             disabled={user.user_id !== 0 ? false : true}
           />
-        ) : null}
+        ) : (
+          <Button
+            cancel={false}
+            text="Edit"
+            styles="w-28"
+            onClick={() => setActiveEditModal(true)}
+          />
+        )}
         <Modal active={active} setActive={setActive}>
           {textModal}
         </Modal>
+        <EditProjectModal
+          active={activeEditModal}
+          setActive={setActiveEditModal}
+        />
       </article>
     </section>
   );

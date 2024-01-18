@@ -87,7 +87,12 @@ export default function Login() {
                 <ErrorIcon /> {error}
               </p>
             ) : null}
-            <Button text="Sign In" disabled={error !== ""} styles="w-72" />
+            <Button
+              text="Sign In"
+              disabled={error !== ""}
+              styles="w-72"
+              cancel={false}
+            />
           </Form>
         </>
       ) : (
