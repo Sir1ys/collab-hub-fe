@@ -21,14 +21,17 @@ export default function MyProjects() {
     <LinkToLoginPage />
   ) : (
     <>
-      <div className="gap-8 p-5 flex flex-col">
+      <div className="gap-8 p-5 flex items-center justify-center flex-col ">
         {projects.length === 0 ? (
           <h2 className="text-sky-700 font-semibold text-2xl">
             There are no projects yet
           </h2>
         ) : (
           <>
-            <ProjectsList projects={projects} projectStyles="bg-sky-500" />
+            <ProjectsList
+              projects={projects}
+              projectStyles="w-8/12 hover:bg-sky-200"
+            />
           </>
         )}
       </div>

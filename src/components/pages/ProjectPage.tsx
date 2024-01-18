@@ -72,48 +72,50 @@ export default function ProjectPage() {
   };
 
   return (
-    <article className="max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
-      <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
-        {project.project_name}
-        <p className="px-3 py-1 absolute top-0 right-0 bg-sky-800 text-sky-50 text-sm rounded-2xl">
-          {status}
+    <section className="flex justify-center items-center">
+      <article className="max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
+        <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
+          {project.project_name}
+          <p className="px-3 py-1 absolute top-0 right-0 bg-sky-800 text-sky-50 text-sm rounded-2xl">
+            {status}
+          </p>
+        </h2>
+        <p className="text-right text-sky-600">
+          {`${dateFromTimestamp(project.project_created_at.toString())}`}
         </p>
-      </h2>
-      <p className="text-right text-sky-600">
-        {`${dateFromTimestamp(project.project_created_at.toString())}`}
-      </p>
-      <h3 className="text-sky-600 text-lg font-medium">
-        Description:
-        <p className="text-sky-400">{project.project_description}</p>
-      </h3>
-      <h3 className="text-sky-600 text-lg font-medium">Skills required: </h3>
-      <ul className="flex gap-2 items-center justify-start flex-wrap">
-        {skills.map((skill: Skill, index: number) => {
-          return <SkillComponent key={index} skill={skill} />;
-        })}
-      </ul>
-      <p className="text-sky-600 text-lg font-medium">
-        People required: {project.required_members}
-      </p>
-      {project.project_author !== user.user_id ? (
-        <Button
-          text={
-            memberRequests.find((member) => member.user_id === user.user_id)
-              ? "Unsubscribe"
-              : "Apply"
-          }
-          styles="w-28"
-          onClick={
-            memberRequests.find((member) => member.user_id === user.user_id)
-              ? handleCancelRequest
-              : handleApply
-          }
-          disabled={user.user_id !== 0 ? false : true}
-        />
-      ) : null}
-      <Modal active={active} setActive={setActive}>
-        {textModal}
-      </Modal>
-    </article>
+        <h3 className="text-sky-600 text-lg font-medium">
+          Description:
+          <p className="text-sky-400">{project.project_description}</p>
+        </h3>
+        <h3 className="text-sky-600 text-lg font-medium">Skills required: </h3>
+        <ul className="flex gap-2 items-center justify-start flex-wrap">
+          {skills.map((skill: Skill, index: number) => {
+            return <SkillComponent key={index} skill={skill} />;
+          })}
+        </ul>
+        <p className="text-sky-600 text-lg font-medium">
+          People required: {project.required_members}
+        </p>
+        {project.project_author !== user.user_id ? (
+          <Button
+            text={
+              memberRequests.find((member) => member.user_id === user.user_id)
+                ? "Unsubscribe"
+                : "Apply"
+            }
+            styles="w-28"
+            onClick={
+              memberRequests.find((member) => member.user_id === user.user_id)
+                ? handleCancelRequest
+                : handleApply
+            }
+            disabled={user.user_id !== 0 ? false : true}
+          />
+        ) : null}
+        <Modal active={active} setActive={setActive}>
+          {textModal}
+        </Modal>
+      </article>
+    </section>
   );
 }
