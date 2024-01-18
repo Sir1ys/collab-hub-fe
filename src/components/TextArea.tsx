@@ -3,12 +3,13 @@ import { type ComponentPropsWithoutRef, forwardRef } from "react";
 type Props = {
   label: string;
   id: string;
+  styles?: string;
 } & ComponentPropsWithoutRef<"textarea">;
 
 export const TextArea = forwardRef<HTMLTextAreaElement, Props>(
-  ({ id, label, ...props }, ref) => {
+  ({ id, label, styles, ...props }, ref) => {
     return (
-      <p className="relative w-72">
+      <p className={`relative w-72 ${styles}`}>
         <label
           htmlFor={id}
           className="absolute left-0 px-2.5 text-sky-500 uppercase translate-x-4 translate-y-[-1.375rem] bg-sky-50"

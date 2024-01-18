@@ -24,6 +24,7 @@ export default function UserDetailsForm({
         type="email"
         id="email"
         label="email"
+        styles="mb-6"
         required
         value={email}
         onChange={(e) => updateFields({ email: e.target.value })}
@@ -32,6 +33,7 @@ export default function UserDetailsForm({
         type="text"
         id="name"
         label="name"
+        styles="mb-6"
         required
         value={name}
         onChange={(e) => updateFields({ name: e.target.value })}
@@ -40,6 +42,7 @@ export default function UserDetailsForm({
         type="text"
         id="username"
         label="username"
+        styles="mb-6"
         required
         value={username}
         onChange={(e) => updateFields({ username: e.target.value })}
@@ -48,6 +51,7 @@ export default function UserDetailsForm({
         type="password"
         id="password"
         label="password"
+        styles="mb-2"
         required
         value={password}
         onChange={(e) => updateFields({ password: e.target.value })}
