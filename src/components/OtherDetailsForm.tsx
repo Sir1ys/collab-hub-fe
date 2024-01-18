@@ -23,6 +23,7 @@ export default function OtherDetailsForm({
         type="text"
         id="github_url"
         label="GitHub Url"
+        styles="mb-6"
         required
         value={github_url}
         onChange={(e) => updateFields({ github_url: e.target.value })}
@@ -31,6 +32,7 @@ export default function OtherDetailsForm({
         id="bio"
         label="bio"
         placeholder="Tell us about yourself"
+        styles="mb-6"
         required
         value={bio}
         onChange={(e) => updateFields({ bio: e.target.value })}
@@ -39,6 +41,7 @@ export default function OtherDetailsForm({
         type="text"
         id="avatar_url"
         label="avatar"
+        styles="mb-2"
         required
         value={avatar_url}
         onChange={(e) => updateFields({ avatar_url: e.target.value })}

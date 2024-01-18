@@ -8,6 +8,7 @@ import { type User } from "../../types/types";
 import { getUserByEmail } from "../../utils/users_api";
 import { useNavigate } from "react-router-dom";
 import SignUpForm from "../SignUpForm";
+import ErrorIcon from "@mui/icons-material/Error";
 
 export default function Login() {
   const [signIn, setSignIn] = useState(true);
@@ -39,21 +40,22 @@ export default function Login() {
   }
 
   return (
-    <div className="relative p-10">
+    <div className=" p-10 flex flex-col justify-center items-center">
       {signIn ? (
         <>
           <Form
             onSave={handleSignIn}
             ref={signInForm}
-            styles={"flex flex-col gap-10 justify-center items-center"}
+            styles={"flex flex-col justify-center items-center relative w-6/12"}
           >
-            <h3 className="text-sky-800 text-center font-semibold text-xl">
+            <h3 className="text-sky-800 text-center font-semibold text-xl mb-8">
               Sign In
             </h3>
             <Input
               type="email"
               id="email"
               label="email"
+              styles={"mb-8"}
               required
               onChange={(e) => {
                 if (
@@ -70,6 +72,7 @@ export default function Login() {
               type="password"
               id="password"
               label="password"
+              styles="mb-2"
               required
               onChange={(e) => {
                 if (e.target.value.length < 6) {
@@ -80,15 +83,11 @@ export default function Login() {
               }}
             />
             {error ? (
-              <div
-                className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 w-72"
-                role="alert"
-              >
-                <p className="font-bold">Error</p>
-                <p>{error}</p>
-              </div>
+              <p className="text-orange-800 mb-4" role="alert">
+                <ErrorIcon /> {error}
+              </p>
             ) : null}
-            <Button text="Sign In" disabled={error !== ""} styles="p-8" />
+            <Button text="Sign In" disabled={error !== ""} styles="w-72" />
           </Form>
         </>
       ) : (

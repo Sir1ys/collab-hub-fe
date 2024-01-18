@@ -7,6 +7,7 @@ import Button from "./Button";
 import { useUserDispatch } from "../store/hooks";
 import { setUser } from "../store/userSlice";
 import { createUser } from "../utils/users_api";
+import ErrorIcon from "@mui/icons-material/Error";
 import { type User } from "../types/types";
 
 type UserData = {
@@ -155,23 +156,19 @@ export default function SignUpForm() {
       </div>
       <form
         onSubmit={handleSingUp}
-        className="flex flex-col gap-6 justify-center items-center"
+        className="flex flex-col justify-center items-center"
         onChange={(e: React.ChangeEvent<HTMLFormElement>) =>
           handleInputChange(e as any)
         }
       >
-        <h3 className="text-sky-800 text-center font-semibold text-xl">
+        <h3 className="text-sky-800 text-center font-semibold text-xl mb-6">
           Sign Up
         </h3>
         {step}
         {error ? (
-          <div
-            className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 w-72"
-            role="alert"
-          >
-            <p className="font-bold">Error</p>
-            <p>{error}</p>
-          </div>
+          <p className="text-orange-800 mb-4" role="alert">
+            <ErrorIcon /> {error}
+          </p>
         ) : null}
         <div className="flex w-72 gap-2 justify-end">
           {isFirstStep && (
