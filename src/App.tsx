@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ProjectPage from "./components/pages/ProjectPage";
 import Projects from "./components/pages/Projects";
-import MyProjects from "./components/pages/MyProjects";
+import MyProjects from "./components/pages/InvolvedProjects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
 import Footer from "./components/Footer";
