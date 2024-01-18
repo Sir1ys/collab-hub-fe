@@ -75,7 +75,7 @@ export default function CreatedProjects() {
                 <ProjectComponent
                   key={index}
                   project={project}
-                  styles="w-8/12 hover:scale-100"
+                  styles="w-8/12"
                 />
               );
             })}

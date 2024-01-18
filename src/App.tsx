@@ -25,7 +25,7 @@ function App() {
           />
           <Route
             path="projects/myprojects/involved"
-            element={<InvolvedProjects request="Participated" />}
+            element={<InvolvedProjects />}
           />
           <Route
             path="projects/myprojects/requested"
