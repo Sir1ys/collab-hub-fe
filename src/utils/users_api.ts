@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CreatedUser } from "../types/types";
 
 const usersAPI = axios.create({
   baseURL: "https://collub-hub.onrender.com/api/users",
@@ -9,7 +10,7 @@ export const getAllUsers = () => {
     return response.data.skills;
   });
 };
-export const getUserById = (user_id: any) => {
+export const getUserById = (user_id: number) => {
   return usersAPI.get(`/${user_id}`).then((response) => {
     return response.data.skills;
   });
@@ -21,7 +22,7 @@ export const getUserByEmail = (email: string) => {
   });
 };
 
-export const createUser = (user: any) => {
+export const createUser = (user: CreatedUser) => {
   return usersAPI.post(`/`, user).then((response) => {
     return response.data.user;
   });
@@ -44,33 +45,36 @@ export const getProjectsRequestedByUser = (userId: number) => {
     .get(`${userId}/my-requests`)
     .then((response) => response.data.projects);
 };
-export const getSkillsById = (user_id: any) => {
+export const getSkillsById = (user_id: number) => {
   return usersAPI.get(`/${user_id}/skills`).then((response) => {
     return response.data.skills;
   });
 };
 
-export const addSkill = (user_id: any, skill: any) => {
-  return usersAPI.post(`/${user_id}/skills`, skill).then((response) => {
-    console.log(response, " <RESPONSE")
-    return response.data.skill;
-  });
-}
+export const addSkill = (user_id: number, skill_id: number) => {
+  return usersAPI
+    .post(`/${user_id}/skills`, { skill_id: skill_id })
+    .then((response) => {
+      return response.data.skill;
+    });
+};
 
-export const patchUser = (user_id: any, user: any) => {
-  return usersAPI.patch(`/${user_id}`, user).then((response) => {
-    return response.data.user;
-  });
-}
+export const patchUser = (user_id: number, updatedUser: CreatedUser) => {
+  return usersAPI
+    .patch(`/${user_id}`, { user: updatedUser })
+    .then((response) => {
+      return response.data.user;
+    });
+};
 
 export const deleteUserSkill = (user_id: number, skill_id: number) => {
   return usersAPI.delete(`/${user_id}/skills/${skill_id}`).then((response) => {
     return response.data.skill;
   });
-}
+};
 
 export const deleteUser = (user_id: number) => {
   return usersAPI.delete(`/${user_id}`).then((response) => {
-    return response
+    return response;
   });
-}
+};

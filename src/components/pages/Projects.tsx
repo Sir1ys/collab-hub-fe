@@ -20,7 +20,7 @@ export default function Projects() {
   return (
     <section className="flex flex-col gap-5 mb-5">
       <div className="gap-8 p-5 flex flex-wrap">
-        <ProjectsList projects={projects} numberOfProjects={numberOfProjects} />
+        <ProjectsList projects={projects} numberOfProjects={numberOfProjects} projectStyles="hover:scale-105"/>
       </div>
       <Button
         styles="w-40 self-center"

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { type CreatedProject } from "../types/types";
 
 const projectsAPI = axios.create({
   baseURL: "https://collub-hub.onrender.com/api/projects",
@@ -7,6 +8,12 @@ const projectsAPI = axios.create({
 export const getProjects = () => {
   return projectsAPI.get(`/`).then((response) => {
     return response.data.projects;
+  });
+};
+
+export const createProject = (newProject: CreatedProject) => {
+  return projectsAPI.post("/", { project: newProject }).then((response) => {
+    return response.data.project;
   });
 };
 
@@ -28,12 +35,16 @@ export const getMemberRequestsByProjectId = (projectId: number) => {
     .then((response) => response.data.memberRequests);
 };
 
-export const postMemberRequest = (projectId: number, userId: any) => {
+export const postMemberRequest = (projectId: number, userId: number) => {
   return projectsAPI
-    .post(`${projectId}/member-request`, userId)
+    .post(`${projectId}/member-request`, {
+      memberRequest: {
+        user_id: userId,
+      },
+    })
     .then((response) => response.data);
 };
 
-export const deleteMemberRequest = (projectId: number, userId: any) => {
+export const deleteMemberRequest = (projectId: number, userId: number) => {
   return projectsAPI.delete(`${projectId}/member-request/${userId}`);
 };
