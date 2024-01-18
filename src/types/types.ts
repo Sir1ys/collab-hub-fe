@@ -36,6 +36,12 @@ export type CreatedProject = {
   required_members: number;
 };
 
+export type UpdatedProject = {
+  project_name: string;
+  project_description: string;
+  required_members: number;
+};
+
 export type Skill = {
   skill_id: number;
   skill_name: string;

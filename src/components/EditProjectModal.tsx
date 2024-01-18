@@ -13,7 +13,13 @@ type Props = {
 export default function EditProjectModal({ active, setActive }: Props) {
   const editProjectForm = useRef<FormHandle>(null);
 
-  const handleEditProject = () => {};
+  const handleEditProject = (data: unknown) => {
+    const extractedData = data as {
+      projectName: string;
+      projectDescription: string;
+      membersRequired: string;
+    };
+  };
 
   const handleCancel = () => {
     editProjectForm.current?.clear();
