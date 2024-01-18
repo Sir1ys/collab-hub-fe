@@ -11,7 +11,7 @@ import SignUpForm from "../SignUpForm";
 
 export default function Login() {
   const [signIn, setSignIn] = useState(true);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useUserDispatch();
   const signInForm = useRef<FormHandle>(null);
@@ -25,13 +25,13 @@ export default function Login() {
           dispatch(setUser(user));
           navigate("/");
         } else {
-          setError("Incorrect password. Please try again.")
+          setError("Incorrect password. Please try again.");
         }
       })
       .catch((err) => {
         const message: string = err.response.data.msg;
         if (message === "No user found with that Email") {
-          setError("Invalid email or password. Please try again.")
+          setError("Invalid email or password. Please try again.");
         }
       });
 
@@ -45,7 +45,7 @@ export default function Login() {
           <Form
             onSave={handleSignIn}
             ref={signInForm}
-            styles={"flex flex-col gap-10"}
+            styles={"flex flex-col gap-10 justify-center items-center"}
           >
             <h3 className="text-sky-800 text-center font-semibold text-xl">
               Sign In
@@ -66,14 +66,18 @@ export default function Login() {
                 }
               }}
             />
-            <Input type="password" id="password" label="password" required 
-            onChange={(e) => { 
-              if (e.target.value.length < 6) {
-                setError("Password must be at least 6 characters long.")
-              } else {
-                setError("")
-              }
-          }}
+            <Input
+              type="password"
+              id="password"
+              label="password"
+              required
+              onChange={(e) => {
+                if (e.target.value.length < 6) {
+                  setError("Password must be at least 6 characters long.");
+                } else {
+                  setError("");
+                }
+              }}
             />
             {error ? (
               <div
@@ -84,7 +88,7 @@ export default function Login() {
                 <p>{error}</p>
               </div>
             ) : null}
-            <Button text="Sign In" disabled={error !== ""}/>
+            <Button text="Sign In" disabled={error !== ""} styles="p-8" />
           </Form>
         </>
       ) : (
