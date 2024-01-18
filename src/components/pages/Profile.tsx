@@ -24,7 +24,7 @@ export default function Profile() {
   const [deleteSkillError, setDeleteSkillError] = useState("");
   const [addSkillError, setAddSkillError] = useState("");
   const dispatch = useUserDispatch();
-  const { user } = useSelector((state: any) => state);
+  const user = useSelector((state: any) => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export default function Profile() {
   const handleDeleteAccount = () => {
     deleteUser(user.user_id)
       .then(() => {
-        dispatch(removeUser());
+        dispatch(removeUser(user));
         setIsDeleting(false);
         navigate("/");
       })

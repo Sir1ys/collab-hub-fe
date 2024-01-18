@@ -25,13 +25,13 @@ export default function Login() {
           dispatch(setUser(user));
           navigate("/");
         } else {
-          console.log("The password is incorrect"); // error handler should be created
+          setError("Incorrect password. Please try again.")
         }
       })
       .catch((err) => {
         const message: string = err.response.data.msg;
         if (message === "No user found with that Email") {
-          console.log(message); //error handler should be created
+          setError("Invalid email or password. Please try again.")
         }
       });
 
@@ -84,7 +84,7 @@ export default function Login() {
                 <p>{error}</p>
               </div>
             ) : null}
-            <Button text="Sign In" />
+            <Button text="Sign In" disabled={error !== ""}/>
           </Form>
         </>
       ) : (
