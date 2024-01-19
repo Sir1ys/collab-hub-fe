@@ -50,6 +50,12 @@ export const getProjectStatus = (projectId: number) => {
   });
 };
 
+export const postProjectStatus = (projectId: number, projectStatus: string) => {
+  return projectsAPI.post(`${projectId}/status`, {
+    status: { status: projectStatus },
+  });
+};
+
 export const getMemberRequestsByProjectId = (projectId: number) => {
   return projectsAPI
     .get(`${projectId}/member-request`)
