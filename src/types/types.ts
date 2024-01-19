@@ -48,6 +48,11 @@ export type Skill = {
   skill_avatar: string;
 };
 
+export type SelectOptions = {
+  label: string;
+  value: string | number;
+};
+
 export type Status = "open" | "in progress" | "completed";
 
 export type MemberRequest = {

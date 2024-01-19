@@ -8,11 +8,19 @@ import { TextArea } from "../TextArea";
 import Modal from "../Modal";
 import Button from "../Button";
 import Form, { type FormHandle } from "../Form";
+import { getAllSkills } from "../../utils/skills_api";
 import LinkToLoginPage from "../LinkToLoginPage";
-import { type Project } from "../../types/types";
+import {
+  type Skill,
+  type Project,
+  type SelectOptions,
+} from "../../types/types";
+import SelectElement from "../SelectElement";
 
 export default function CreatedProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [options, setOptions] = useState<SelectOptions[]>([]);
+  const [selectValues, setSelectValues] = useState<SelectOptions[]>([]);
   const [active, setActive] = useState(false);
   const user = useUserSelector((state) => state.user);
   const createProjectForm = useRef<FormHandle>(null);
@@ -34,7 +42,9 @@ export default function CreatedProjects() {
 
     createProject(projectInfo)
       .then((data) => {
-        console.log(data);
+        setProjects((prevProjects) => {
+          return [...prevProjects, data];
+        });
         setActive(false);
       })
       .catch((err) => console.log(err));
@@ -52,6 +62,16 @@ export default function CreatedProjects() {
       getProjectsCreatedByUser(user.user_id).then((response: Project[]) =>
         setProjects(response)
       );
+      getAllSkills().then((response: Skill[]) => {
+        const updatedSkills = response.map((skill) => ({
+          label: skill.skill_name,
+          value: skill.skill_id,
+        }));
+
+        setOptions(updatedSkills);
+        console.log(options);
+        console.log(selectValues);
+      });
     }
   }, []);
 
@@ -102,6 +122,12 @@ export default function CreatedProjects() {
             id="membersRequired"
             label="Members Required"
             required
+          />
+          <SelectElement
+            value={selectValues}
+            onChange={(o) => setSelectValues(o)}
+            options={options}
+            multiple={true}
           />
           <div className="flex gap-4 justify-end">
             <Button type="submit" text="Create" styles="p-4" cancel={false} />
