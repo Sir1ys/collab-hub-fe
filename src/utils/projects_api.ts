@@ -1,5 +1,5 @@
 import axios from "axios";
-import { type CreatedProject } from "../types/types";
+import { type CreatedProject, type UpdatedProject } from "../types/types";
 
 const projectsAPI = axios.create({
   baseURL: "https://collub-hub.onrender.com/api/projects",
@@ -15,6 +15,17 @@ export const createProject = (newProject: CreatedProject) => {
   return projectsAPI.post("/", { project: newProject }).then((response) => {
     return response.data.project;
   });
+};
+
+export const updateProject = (
+  projectId: number,
+  updatedProject: UpdatedProject
+) => {
+  return projectsAPI
+    .patch(`/${projectId}`, { project: updatedProject })
+    .then((response) => {
+      return response.data.project;
+    });
 };
 
 export const getProjectSkills = (projectId: number) => {

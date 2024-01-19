@@ -176,6 +176,7 @@ export default function SignUpForm() {
               text="Next"
               styles={"w-24"}
               onSubmit={handleSingUp}
+              cancel={false}
               type="submit"
               disabled={
                 error === "Please enter a valid email." ||
@@ -192,11 +193,13 @@ export default function SignUpForm() {
                 styles={"w-24"}
                 onClick={back}
                 type="button"
+                cancel={false}
               />
               <Button
                 text="Sign Up"
                 styles={"w-24"}
                 type="submit"
+                cancel={false}
                 disabled={!areFieldsFilled() || error !== ""}
               />
             </>
