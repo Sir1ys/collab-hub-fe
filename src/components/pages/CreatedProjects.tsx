@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useUserSelector } from "../../store/hooks";
 import { getProjectsCreatedByUser } from "../../utils/users_api";
-import { createProject } from "../../utils/projects_api";
+import { addProjectSkill, createProject } from "../../utils/projects_api";
 import ProjectComponent from "../ProjectComponent";
 import { Input } from "../Input";
 import { TextArea } from "../TextArea";
@@ -41,11 +41,19 @@ export default function CreatedProjects() {
     };
 
     createProject(projectInfo)
-      .then((data) => {
+      .then((data: Project) => {
         setProjects((prevProjects) => {
           return [...prevProjects, data];
         });
         setActive(false);
+        return data;
+      })
+      .then((data) => {
+        const promises = [...selectValues].map((value) => {
+          return addProjectSkill(data.project_id, value.label);
+        });
+        setSelectValues([]);
+        return Promise.all(promises);
       })
       .catch((err) => console.log(err));
 
@@ -69,8 +77,6 @@ export default function CreatedProjects() {
         }));
 
         setOptions(updatedSkills);
-        console.log(options);
-        console.log(selectValues);
       });
     }
   }, []);
@@ -128,6 +134,7 @@ export default function CreatedProjects() {
             onChange={(o) => setSelectValues(o)}
             options={options}
             multiple={true}
+            title="skills"
           />
           <div className="flex gap-4 justify-end">
             <Button type="submit" text="Create" styles="p-4" cancel={false} />
