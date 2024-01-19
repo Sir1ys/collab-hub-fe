@@ -22,7 +22,7 @@ export default function ProjectComponent({ project, styles }: Props) {
 
   return (
     <article
-      className={`p-3 bg-sky-100 flex-[1_0_90%] md:flex-[1_0_47%] 2xl:flex-[1_0_31%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl transition ${styles}`}
+      className={`p-3 bg-sky-100 flex md:flex-[1_0_47%] 2xl:flex-[1_0_31%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl transition ${styles}`}
       onClick={() => {
         navigate(`/projects/${project.project_id}`, { state: project });
       }}

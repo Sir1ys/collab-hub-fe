@@ -1,18 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import { useUserSelector } from "../../store/hooks";
 import { getProjectsCreatedByUser } from "../../utils/users_api";
-import { createProject } from "../../utils/projects_api";
+import {
+  addProjectSkill,
+  createProject,
+  postProjectStatus,
+} from "../../utils/projects_api";
 import ProjectComponent from "../ProjectComponent";
 import { Input } from "../Input";
 import { TextArea } from "../TextArea";
 import Modal from "../Modal";
 import Button from "../Button";
 import Form, { type FormHandle } from "../Form";
+import { getAllSkills } from "../../utils/skills_api";
 import LinkToLoginPage from "../LinkToLoginPage";
-import { type Project } from "../../types/types";
+import {
+  type Skill,
+  type Project,
+  type SelectOptions,
+  type StatusObject,
+} from "../../types/types";
+import SelectElement from "../SelectElement";
+import { getStatuses } from "../../utils/status";
 
 export default function CreatedProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [options, setOptions] = useState<SelectOptions[]>([]);
+  const [statuses, setStatuses] = useState<SelectOptions[]>([]);
+  const [selectValues, setSelectValues] = useState<SelectOptions[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<SelectOptions>();
   const [active, setActive] = useState(false);
   const user = useUserSelector((state) => state.user);
   const createProjectForm = useRef<FormHandle>(null);
@@ -33,9 +49,27 @@ export default function CreatedProjects() {
     };
 
     createProject(projectInfo)
-      .then((data) => {
-        console.log(data);
+      .then((projectDetails: Project) => {
+        setProjects((prevProjects) => {
+          return [...prevProjects, projectDetails];
+        });
+        setActive(false);
+        return projectDetails;
       })
+      .then((projectDetails) => {
+        if (selectedStatus !== undefined) {
+          postProjectStatus(projectDetails.project_id, selectedStatus.label);
+        }
+        return projectDetails;
+      })
+      .then(async (projectDetails) => {
+        const promises = [...selectValues].map((value) => {
+          return addProjectSkill(projectDetails.project_id, value.label);
+        });
+        await Promise.all(promises);
+        setSelectValues([]);
+      })
+
       .catch((err) => console.log(err));
 
     createProjectForm.current?.clear();
@@ -43,6 +77,8 @@ export default function CreatedProjects() {
 
   const handleCancel = () => {
     createProjectForm.current?.clear();
+    setSelectValues([]);
+    setSelectedStatus({ label: "", value: 3 });
     setActive(false);
   };
 
@@ -51,6 +87,20 @@ export default function CreatedProjects() {
       getProjectsCreatedByUser(user.user_id).then((response: Project[]) =>
         setProjects(response)
       );
+      getAllSkills().then((response: Skill[]) => {
+        const updatedSkills = response.map((skill) => ({
+          label: skill.skill_name,
+          value: skill.skill_id,
+        }));
+        setOptions(updatedSkills);
+      });
+      getStatuses().then((response: StatusObject[]) => {
+        const updatedStatuses = response.map((status) => ({
+          label: status.status_name,
+          value: status.status_id,
+        }));
+        setStatuses(updatedStatuses);
+      });
     }
   }, []);
 
@@ -58,7 +108,7 @@ export default function CreatedProjects() {
     <LinkToLoginPage />
   ) : (
     <>
-      <div className="gap-8 p-5 flex flex-col items-center justify-center">
+      <div className="md:w-8/12 gap-8 p-5 flex flex-col items-center justify-center">
         {projects.length === 0 ? (
           <h2 className="text-sky-700 font-semibold text-2xl">
             There are no projects yet
@@ -76,7 +126,7 @@ export default function CreatedProjects() {
                 <ProjectComponent
                   key={index}
                   project={project}
-                  styles="w-8/12"
+                  styles="w-full"
                 />
               );
             })}
@@ -101,6 +151,19 @@ export default function CreatedProjects() {
             id="membersRequired"
             label="Members Required"
             required
+          />
+          <SelectElement
+            value={selectValues}
+            onChange={(o) => setSelectValues(o)}
+            options={options}
+            multiple={true}
+            title="skills"
+          />
+          <SelectElement
+            value={selectedStatus}
+            onChange={(o) => setSelectedStatus(o)}
+            options={statuses}
+            title="status"
           />
           <div className="flex gap-4 justify-end">
             <Button type="submit" text="Create" styles="p-4" cancel={false} />

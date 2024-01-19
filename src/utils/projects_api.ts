@@ -28,15 +28,31 @@ export const updateProject = (
     });
 };
 
+export const deleteProject = (projectId: number) => {
+  return projectsAPI.delete(`/${projectId}`);
+};
+
 export const getProjectSkills = (projectId: number) => {
   return projectsAPI.get(`${projectId}/skills`).then((response) => {
     return response.data.skills;
   });
 };
 
+export const addProjectSkill = (projectId: number, skillName: string) => {
+  return projectsAPI.post(`${projectId}/skills`, {
+    skill: { skill_name: skillName },
+  });
+};
+
 export const getProjectStatus = (projectId: number) => {
   return projectsAPI.get(`${projectId}/status`).then((response) => {
     return response.data.status;
+  });
+};
+
+export const postProjectStatus = (projectId: number, projectStatus: string) => {
+  return projectsAPI.post(`${projectId}/status`, {
+    status: { status: projectStatus },
   });
 };
 
