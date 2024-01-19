@@ -35,6 +35,7 @@ export default function CreatedProjects() {
     createProject(projectInfo)
       .then((data) => {
         console.log(data);
+        setActive(false);
       })
       .catch((err) => console.log(err));
 

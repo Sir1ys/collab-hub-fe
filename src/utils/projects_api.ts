@@ -28,6 +28,10 @@ export const updateProject = (
     });
 };
 
+export const deleteProject = (projectId: number) => {
+  return projectsAPI.delete(`/${projectId}`);
+};
+
 export const getProjectSkills = (projectId: number) => {
   return projectsAPI.get(`${projectId}/skills`).then((response) => {
     return response.data.skills;

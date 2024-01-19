@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { dateFromTimestamp } from "../../utils/dates";
 import {
   type MemberRequest,
@@ -13,6 +13,7 @@ import {
   postMemberRequest,
   deleteMemberRequest,
   getMemberRequestsByProjectId,
+  deleteProject,
 } from "../../utils/projects_api";
 import { useUserSelector } from "../../store/hooks";
 import SkillComponent from "../SkillComponent";
@@ -26,6 +27,7 @@ type LocationState = {
 
 export default function ProjectPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { state: project } = location as LocationState;
   const [projectState, setProjectState] = useState(project);
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -74,6 +76,12 @@ export default function ProjectPage() {
       });
   };
 
+  const handleDeleteProject = () => {
+    deleteProject(project.project_id).then(() => {
+      navigate("/");
+    });
+  };
+
   return (
     <section className="w-full flex flex-col justify-center items-center">
       <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
@@ -116,12 +124,20 @@ export default function ProjectPage() {
             disabled={user.user_id !== 0 ? false : true}
           />
         ) : (
-          <Button
-            cancel={false}
-            text="Edit"
-            styles="w-28"
-            onClick={() => setActiveEditModal(true)}
-          />
+          <div className="self-start flex gap-4">
+            <Button
+              cancel={false}
+              text="Edit"
+              styles="w-28"
+              onClick={() => setActiveEditModal(true)}
+            />
+            <Button
+              cancel={true}
+              text="Delete"
+              styles="w-28"
+              onClick={() => handleDeleteProject()}
+            />
+          </div>
         )}
         <Modal active={active} setActive={setActive}>
           {textModal}
