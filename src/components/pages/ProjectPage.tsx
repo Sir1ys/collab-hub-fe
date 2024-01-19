@@ -75,8 +75,8 @@ export default function ProjectPage() {
   };
 
   return (
-    <section className="flex flex-col justify-center items-center">
-      <article className="max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
+    <section className="w-full flex flex-col justify-center items-center">
+      <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
         <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
           {projectState.project_name}
           <p className="px-3 py-1 absolute top-0 right-0 bg-sky-800 text-sky-50 text-sm rounded-2xl">
