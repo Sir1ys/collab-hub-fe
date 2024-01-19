@@ -55,6 +55,8 @@ export type SelectOptions = {
 
 export type Status = "open" | "in progress" | "completed";
 
+export type StatusObject = { status_id: number; status_name: string };
+
 export type MemberRequest = {
   user_id: number;
   username: string;

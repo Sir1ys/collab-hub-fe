@@ -14,12 +14,15 @@ import {
   type Skill,
   type Project,
   type SelectOptions,
+  type StatusObject,
 } from "../../types/types";
 import SelectElement from "../SelectElement";
+import { getStatuses } from "../../utils/status";
 
 export default function CreatedProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [options, setOptions] = useState<SelectOptions[]>([]);
+  const [statuses, setStatuses] = useState<StatusObject[]>([]);
   const [selectValues, setSelectValues] = useState<SelectOptions[]>([]);
   const [active, setActive] = useState(false);
   const user = useUserSelector((state) => state.user);
@@ -75,9 +78,9 @@ export default function CreatedProjects() {
           label: skill.skill_name,
           value: skill.skill_id,
         }));
-
         setOptions(updatedSkills);
       });
+      getStatuses().then((response: StatusObject[]) => setStatuses(response));
     }
   }, []);
 
