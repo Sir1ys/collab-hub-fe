@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useUserSelector } from "../../store/hooks";
 import { getProjectsCreatedByUser } from "../../utils/users_api";
-import { addProjectSkill, createProject } from "../../utils/projects_api";
+import {
+  addProjectSkill,
+  createProject,
+  postProjectStatus,
+} from "../../utils/projects_api";
 import ProjectComponent from "../ProjectComponent";
 import { Input } from "../Input";
 import { TextArea } from "../TextArea";
@@ -22,8 +26,9 @@ import { getStatuses } from "../../utils/status";
 export default function CreatedProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [options, setOptions] = useState<SelectOptions[]>([]);
-  const [statuses, setStatuses] = useState<StatusObject[]>([]);
+  const [statuses, setStatuses] = useState<SelectOptions[]>([]);
   const [selectValues, setSelectValues] = useState<SelectOptions[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<SelectOptions>();
   const [active, setActive] = useState(false);
   const user = useUserSelector((state) => state.user);
   const createProjectForm = useRef<FormHandle>(null);
@@ -44,20 +49,27 @@ export default function CreatedProjects() {
     };
 
     createProject(projectInfo)
-      .then((data: Project) => {
+      .then((projectDetails: Project) => {
         setProjects((prevProjects) => {
-          return [...prevProjects, data];
+          return [...prevProjects, projectDetails];
         });
         setActive(false);
-        return data;
+        return projectDetails;
       })
-      .then((data) => {
+      .then((projectDetails) => {
+        if (selectedStatus !== undefined) {
+          postProjectStatus(projectDetails.project_id, selectedStatus.label);
+        }
+        return projectDetails;
+      })
+      .then(async (projectDetails) => {
         const promises = [...selectValues].map((value) => {
-          return addProjectSkill(data.project_id, value.label);
+          return addProjectSkill(projectDetails.project_id, value.label);
         });
+        await Promise.all(promises);
         setSelectValues([]);
-        return Promise.all(promises);
       })
+
       .catch((err) => console.log(err));
 
     createProjectForm.current?.clear();
@@ -65,6 +77,8 @@ export default function CreatedProjects() {
 
   const handleCancel = () => {
     createProjectForm.current?.clear();
+    setSelectValues([]);
+    setSelectedStatus({ label: "", value: 3 });
     setActive(false);
   };
 
@@ -80,7 +94,13 @@ export default function CreatedProjects() {
         }));
         setOptions(updatedSkills);
       });
-      getStatuses().then((response: StatusObject[]) => setStatuses(response));
+      getStatuses().then((response: StatusObject[]) => {
+        const updatedStatuses = response.map((status) => ({
+          label: status.status_name,
+          value: status.status_id,
+        }));
+        setStatuses(updatedStatuses);
+      });
     }
   }, []);
 
@@ -138,6 +158,12 @@ export default function CreatedProjects() {
             options={options}
             multiple={true}
             title="skills"
+          />
+          <SelectElement
+            value={selectedStatus}
+            onChange={(o) => setSelectedStatus(o)}
+            options={statuses}
+            title="status"
           />
           <div className="flex gap-4 justify-end">
             <Button type="submit" text="Create" styles="p-4" cancel={false} />

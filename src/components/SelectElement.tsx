@@ -58,12 +58,12 @@ export default function SelectElement({
         <span className="absolute left-4 top-[-1rem] px-2.5  text-sky-500 uppercase bg-sky-50">
           Choose {`${title}`}
         </span>
-        <span className="grow text-left flex flex-row flex-wrap gap-4">
+        <span className="grow text-left flex flex-row flex-wrap gap-4 text-sky-600">
           {multiple
             ? value.map((el) => (
                 <button
                   key={el.value}
-                  className="text-sky-600 hover:text-red-800 border-2 hover:border-red-300 px-2 py-0.5 rounded-md"
+                  className="hover:text-red-800 border-2 hover:border-red-300 px-2 py-0.5 rounded-md"
                   onClick={(event) => {
                     event.stopPropagation();
                     selectOption(el);
