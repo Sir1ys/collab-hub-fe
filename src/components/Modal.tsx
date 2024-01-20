@@ -16,7 +16,7 @@ export default function Modal({ active, setActive, children, styles }: Props) {
       }}
     >
       <div
-        className={`p-10 rounded-2xl bg-gray-50 transition-all delay-200 h-77 w-96 flex justify-center items-center${
+        className={`p-6 rounded-2xl bg-gray-50 transition-all delay-200 h-77 w-10/12 md:w-96 flex justify-center items-center${
           !active ? "scale-50" : "scale-100"
         } ${styles}`}
         onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>

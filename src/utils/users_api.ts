@@ -12,7 +12,7 @@ export const getAllUsers = () => {
 };
 export const getUserById = (user_id: number) => {
   return usersAPI.get(`/${user_id}`).then((response) => {
-    return response.data.skills;
+    return response.data.user;
   });
 };
 

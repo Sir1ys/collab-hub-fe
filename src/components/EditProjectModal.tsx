@@ -69,6 +69,9 @@ export default function EditProjectModal({
         ref={editProjectForm}
         styles={"flex flex-col gap-8"}
       >
+        <h3 className="text-sky-800 font-semibold text-xl mb-2">
+          Edit Project Form
+        </h3>
         <Input type="text" id="projectName" label="Project Name" />
         <TextArea
           id="projectDescription"

@@ -139,6 +139,7 @@ export default function CreatedProjects() {
           ref={createProjectForm}
           styles={"flex flex-col gap-8"}
         >
+          <h3 className="text-sky-800 font-semibold text-xl mb-2">Create Project Form</h3>
           <Input type="text" id="projectName" label="Project Name" required />
           <TextArea
             id="projectDescription"

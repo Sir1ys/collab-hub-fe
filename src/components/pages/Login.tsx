@@ -83,7 +83,7 @@ export default function Login() {
               }}
             />
             {error ? (
-              <p className="text-orange-800 mb-4" role="alert">
+              <p className="text-orange-800 mb-4 w-72" role="alert">
                 <ErrorIcon /> {error}
               </p>
             ) : null}
