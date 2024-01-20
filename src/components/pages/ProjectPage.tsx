@@ -186,9 +186,11 @@ export default function ProjectPage() {
           setProjectState={setProjectState}
         />
         <ProfileModal
+          project_id={project.project_id}
           user_id={currentMemberRequest}
           active={activeProfileModal}
           setActive={setActiveProfileModal}
+          setMemberRequests={setMemberRequests}
         />
       </article>
     </section>

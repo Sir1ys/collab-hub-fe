@@ -1,21 +1,39 @@
 import { useEffect, useState } from "react";
-import { Skill, type User } from "../types/types";
+import { type Skill, type User, type MemberRequest } from "../types/types";
 import { getSkillsById, getUserById } from "../utils/users_api";
 import SkillComponent from "./SkillComponent";
 import Modal from "./Modal";
 import Button from "./Button";
+import { deleteMemberRequest } from "../utils/projects_api";
 
 type Props = {
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
   user_id: number;
+  project_id: number;
+  setMemberRequests: React.Dispatch<React.SetStateAction<MemberRequest[]>>;
 };
 
-export default function ProfileModal({ active, setActive, user_id }: Props) {
+export default function ProfileModal({
+  active,
+  setActive,
+  user_id,
+  project_id,
+  setMemberRequests,
+}: Props) {
   const [userInfo, setUserInfo] = useState<User>();
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
 
   const handleReject = () => {
+    if (user_id !== 0) {
+      deleteMemberRequest(project_id, user_id)
+        .then(() =>
+          setMemberRequests((prevReq) => {
+            return [...prevReq].filter((req) => req.user_id !== user_id);
+          })
+        )
+        .catch((err) => console.log(err));
+    }
     setActive(false);
   };
 
