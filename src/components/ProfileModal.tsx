@@ -4,7 +4,7 @@ import { getSkillsById, getUserById } from "../utils/users_api";
 import SkillComponent from "./SkillComponent";
 import Modal from "./Modal";
 import Button from "./Button";
-import { deleteMemberRequest } from "../utils/projects_api";
+import { deleteMemberRequest, postMember } from "../utils/projects_api";
 
 type Props = {
   active: boolean;
@@ -26,6 +26,14 @@ export default function ProfileModal({
 
   const handleConfirm = () => {
     if (user_id !== 0) {
+      postMember(project_id, user_id)
+        .then(() => {
+          setMemberRequests((prevReq) => {
+            return [...prevReq].filter((req) => req.user_id !== user_id);
+          });
+        })
+        .catch((err) => console.log(err));
+      setActive(false);
     }
   };
 
