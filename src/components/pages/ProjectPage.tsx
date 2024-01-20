@@ -20,6 +20,7 @@ import SkillComponent from "../SkillComponent";
 import Button from "../Button";
 import Modal from "../Modal";
 import EditProjectModal from "../EditProjectModal";
+import ProfileModal from "../ProfileModal";
 
 type LocationState = {
   state: Project;
@@ -35,6 +36,7 @@ export default function ProjectPage() {
   const [memberRequests, setMemberRequests] = useState<MemberRequest[]>([]);
   const [active, setActive] = useState<boolean>(false);
   const [activeEditModal, setActiveEditModal] = useState<boolean>(false);
+  const [activeProfileModal, setActiveProfileModal] = useState<boolean>(false);
   const [textModal, setTextModal] = useState<string>("");
   const user = useUserSelector((state) => state.user);
 
@@ -74,6 +76,10 @@ export default function ProjectPage() {
         setTextModal(err.response.data.msg);
         setActive(true);
       });
+  };
+
+  const handleViewRequest = () => {
+    setActiveProfileModal(true);
   };
 
   const handleDeleteProject = () => {
@@ -143,6 +149,7 @@ export default function ProjectPage() {
                     <span
                       key={index}
                       className="p-3 rounded-xl cursor-pointer text-sky-800 font-medium shadow-sm shadow-sky-600 hover:shadow-md hover:shadow-sky-800"
+                      onClick={handleViewRequest}
                     >
                       {request.username}
                     </span>
@@ -176,8 +183,11 @@ export default function ProjectPage() {
           project={project}
           setProjectState={setProjectState}
         />
+        <ProfileModal
+          active={activeProfileModal}
+          setActive={setActiveProfileModal}
+        />
       </article>
     </section>
   );
 }
-// bg-sky-200 border-2 border-sky-400  hover:bg-sky-400 hover:text-white hover:border-sky-800
