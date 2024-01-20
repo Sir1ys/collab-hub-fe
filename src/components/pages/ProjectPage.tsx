@@ -84,7 +84,7 @@ export default function ProjectPage() {
 
   return (
     <section className="w-full flex flex-col justify-center items-center">
-      <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-3 rounded-lg">
+      <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-6 rounded-lg">
         <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
           {projectState.project_name}
           <p className="px-3 py-1 absolute top-0 right-0 bg-sky-800 text-sky-50 text-sm rounded-2xl">
@@ -94,17 +94,20 @@ export default function ProjectPage() {
         <p className="text-right text-sky-600">
           {`${dateFromTimestamp(projectState.project_created_at.toString())}`}
         </p>
-        <h3 className="text-sky-600 text-lg font-medium">
+        <h3 className="text-sky-600 text-lg font-medium text-left">
           Description:
           <p className="text-sky-400">{projectState.project_description}</p>
         </h3>
-        <h3 className="text-sky-600 text-lg font-medium">Skills required: </h3>
-        <ul className="flex gap-2 items-center justify-start flex-wrap">
-          {skills.map((skill: Skill, index: number) => {
-            return <SkillComponent key={index} skill={skill} />;
-          })}
-        </ul>
-        <p className="text-sky-600 text-lg font-medium">
+        <h3 className="text-sky-600 text-lg font-medium text-left">
+          Skills required:{" "}
+          <ul className="flex gap-2 items-center justify-start flex-wrap">
+            {skills.map((skill: Skill, index: number) => {
+              return <SkillComponent key={index} skill={skill} />;
+            })}
+          </ul>
+        </h3>
+
+        <p className="text-sky-600 text-lg font-medium text-left">
           People required: {projectState.required_members}
         </p>
         {projectState.project_author !== user.user_id ? (
@@ -124,20 +127,45 @@ export default function ProjectPage() {
             disabled={user.user_id !== 0 ? false : true}
           />
         ) : (
-          <div className="self-start flex gap-4">
-            <Button
-              cancel={false}
-              text="Edit"
-              styles="w-28"
-              onClick={() => setActiveEditModal(true)}
-            />
-            <Button
-              cancel={true}
-              text="Delete"
-              styles="w-28"
-              onClick={() => handleDeleteProject()}
-            />
-          </div>
+          <>
+            <div>
+              <h3 className="text-sky-600 text-lg font-medium text-left">
+                Member requests:
+              </h3>
+
+              <div className="text-left m-6">
+                {memberRequests.length === 0 ? (
+                  <span className="text-sky-400 text-lg font-medium">
+                    There is no requests yet!
+                  </span>
+                ) : (
+                  memberRequests.map((request, index) => (
+                    <span
+                      key={index}
+                      className="p-3 rounded-xl cursor-pointer text-sky-800 font-medium shadow-sm shadow-sky-600 hover:shadow-md hover:shadow-sky-800"
+                    >
+                      {request.username}
+                    </span>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div className="self-start flex gap-4">
+              <Button
+                cancel={false}
+                text="Edit"
+                styles="w-28"
+                onClick={() => setActiveEditModal(true)}
+              />
+              <Button
+                cancel={true}
+                text="Delete"
+                styles="w-28"
+                onClick={() => handleDeleteProject()}
+              />
+            </div>
+          </>
         )}
         <Modal active={active} setActive={setActive}>
           {textModal}
@@ -152,3 +180,4 @@ export default function ProjectPage() {
     </section>
   );
 }
+// bg-sky-200 border-2 border-sky-400  hover:bg-sky-400 hover:text-white hover:border-sky-800
