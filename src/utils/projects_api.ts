@@ -62,6 +62,13 @@ export const getMemberRequestsByProjectId = (projectId: number) => {
     .then((response) => response.data.memberRequests);
 };
 
+export const deleteMemberRequestByUserId = (
+  projectId: number,
+  userId: number
+) => {
+  return projectsAPI.delete(`${projectId}/members/${userId}`);
+};
+
 export const postMemberRequest = (projectId: number, userId: number) => {
   return projectsAPI
     .post(`${projectId}/member-request`, {

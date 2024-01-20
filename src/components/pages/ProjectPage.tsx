@@ -91,11 +91,11 @@ export default function ProjectPage() {
   };
 
   return (
-    <section className="w-full flex flex-col justify-center items-center">
+    <section className=" w-11/12 md:w-full flex flex-col justify-center items-center">
       <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-6 rounded-lg">
         <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
           {projectState.project_name}
-          <p className="px-3 py-1 absolute top-0 right-0 bg-sky-800 text-sky-50 text-sm rounded-2xl">
+          <p className="px-3 py-1 md:absolute md:top-0 md:right-0 md:bg-sky-800 md:text-sky-50 text-lg text-right md:text-sm rounded-2xl">
             {status}
           </p>
         </h2>
@@ -141,7 +141,7 @@ export default function ProjectPage() {
                 Member requests:
               </h3>
 
-              <div className="text-left m-6">
+              <div className="text-left m-2 mr-0 flex gap-3">
                 {memberRequests.length === 0 ? (
                   <span className="text-sky-400 text-lg font-medium">
                     There is no requests yet!

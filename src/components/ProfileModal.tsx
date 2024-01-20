@@ -15,6 +15,10 @@ export default function ProfileModal({ active, setActive, user_id }: Props) {
   const [userInfo, setUserInfo] = useState<User>();
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
 
+  const handleReject = () => {
+    setActive(false);
+  };
+
   useEffect(() => {
     if (user_id !== 0) {
       getUserById(user_id).then((userData: User) => setUserInfo(userData));
@@ -44,7 +48,7 @@ export default function ProfileModal({ active, setActive, user_id }: Props) {
         </ul>
         <div className="flex gap-4">
           <Button styles={"w-24"} text="Confirm" cancel={false} />
-          <Button styles={"w-24"} text="Reject" />
+          <Button styles={"w-24"} text="Reject" onClick={handleReject} />
         </div>
       </div>
     </Modal>
