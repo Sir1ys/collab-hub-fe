@@ -24,6 +24,11 @@ export default function ProfileModal({
   const [userInfo, setUserInfo] = useState<User>();
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
 
+  const handleConfirm = () => {
+    if (user_id !== 0) {
+    }
+  };
+
   const handleReject = () => {
     if (user_id !== 0) {
       deleteMemberRequest(project_id, user_id)
@@ -65,7 +70,12 @@ export default function ProfileModal({
           })}
         </ul>
         <div className="flex gap-4">
-          <Button styles={"w-24"} text="Confirm" cancel={false} />
+          <Button
+            styles={"w-24"}
+            text="Confirm"
+            cancel={false}
+            onClick={handleConfirm}
+          />
           <Button styles={"w-24"} text="Reject" onClick={handleReject} />
         </div>
       </div>
