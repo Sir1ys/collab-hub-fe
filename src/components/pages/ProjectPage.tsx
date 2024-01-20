@@ -34,6 +34,7 @@ export default function ProjectPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [status, setStatus] = useState<Status>("open");
   const [memberRequests, setMemberRequests] = useState<MemberRequest[]>([]);
+  const [currentMemberRequest, setCurrentMemberRequest] = useState<number>(0);
   const [active, setActive] = useState<boolean>(false);
   const [activeEditModal, setActiveEditModal] = useState<boolean>(false);
   const [activeProfileModal, setActiveProfileModal] = useState<boolean>(false);
@@ -78,7 +79,8 @@ export default function ProjectPage() {
       });
   };
 
-  const handleViewRequest = () => {
+  const handleViewRequest = (user_id: number) => {
+    setCurrentMemberRequest(user_id);
     setActiveProfileModal(true);
   };
 
@@ -149,7 +151,7 @@ export default function ProjectPage() {
                     <span
                       key={index}
                       className="p-3 rounded-xl cursor-pointer text-sky-800 font-medium shadow-sm shadow-sky-600 hover:shadow-md hover:shadow-sky-800"
-                      onClick={handleViewRequest}
+                      onClick={() => handleViewRequest(request.user_id)}
                     >
                       {request.username}
                     </span>
@@ -184,6 +186,7 @@ export default function ProjectPage() {
           setProjectState={setProjectState}
         />
         <ProfileModal
+          user_id={currentMemberRequest}
           active={activeProfileModal}
           setActive={setActiveProfileModal}
         />
