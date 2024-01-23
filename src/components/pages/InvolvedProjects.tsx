@@ -34,6 +34,7 @@ export default function MyProjects() {
                   key={index}
                   project={project}
                   styles="w-full"
+                  involved={true}
                 />
               );
             })}
