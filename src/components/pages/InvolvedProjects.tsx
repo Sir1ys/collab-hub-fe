@@ -24,7 +24,7 @@ export default function MyProjects() {
       <div className="md:w-8/12 gap-8 p-5 flex flex-col justify-center items-center">
         {projects.length === 0 ? (
           <h2 className="text-sky-700 font-semibold text-2xl">
-            There are no projects yet
+            There are no projects yet!
           </h2>
         ) : (
           <>
