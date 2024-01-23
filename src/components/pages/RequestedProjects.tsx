@@ -21,10 +21,10 @@ export default function MyProjects() {
     <LinkToLoginPage />
   ) : (
     <>
-      <div className="md:8/12 gap-8 p-5 flex items-center justify-center flex-col ">
+      <div className="md:w-8/12 gap-8 p-5 flex items-center justify-center flex-col ">
         {projects.length === 0 ? (
           <h2 className="text-sky-700 font-semibold text-2xl">
-            There are no projects yet
+            There are no projects yet!
           </h2>
         ) : (
           <>

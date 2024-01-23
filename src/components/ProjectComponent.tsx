@@ -8,9 +8,10 @@ import { dateFromTimestamp } from "../utils/dates";
 type Props = {
   project: Project;
   styles?: string;
+  involved?: true;
 };
 
-export default function ProjectComponent({ project, styles }: Props) {
+export default function ProjectComponent({ project, styles, involved }: Props) {
   const [skills, setSkills] = useState<Skill[]>([]);
   let navigate = useNavigate();
 
@@ -24,7 +25,9 @@ export default function ProjectComponent({ project, styles }: Props) {
     <article
       className={`p-3 bg-sky-100 flex md:flex-[1_0_47%] 2xl:flex-[1_0_31%] flex flex-col gap-3 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl transition ${styles}`}
       onClick={() => {
-        navigate(`/projects/${project.project_id}`, { state: project });
+        navigate(`/projects/${project.project_id}`, {
+          state: { project: project, involved },
+        });
       }}
     >
       <h2 className="text-sky-800 text-xl font-medium text-center">

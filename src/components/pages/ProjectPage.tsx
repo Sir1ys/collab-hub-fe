@@ -23,14 +23,20 @@ import EditProjectModal from "../EditProjectModal";
 import ProfileModal from "../ProfileModal";
 
 type LocationState = {
-  state: Project;
+  state: {
+    project: Project;
+    involved?: true | undefined;
+  };
 };
 
 export default function ProjectPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { state: project } = location as LocationState;
+  const {
+    state: { project, involved },
+  } = location as LocationState;
   const [projectState, setProjectState] = useState(project);
+  const [isInvolvedPage, setIsInvolvedPage] = useState(involved);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [status, setStatus] = useState<Status>("open");
   const [memberRequests, setMemberRequests] = useState<MemberRequest[]>([]);
@@ -90,6 +96,8 @@ export default function ProjectPage() {
     });
   };
 
+  const handleOpenChat = () => {};
+
   return (
     <section className=" w-11/12 md:w-full flex flex-col justify-center items-center">
       <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-6 rounded-lg">
@@ -119,21 +127,37 @@ export default function ProjectPage() {
           People required: {projectState.required_members}
         </p>
         {projectState.project_author !== user.user_id ? (
-          <Button
-            cancel={false}
-            text={
-              memberRequests.find((member) => member.user_id === user.user_id)
-                ? "Unsubscribe"
-                : "Apply"
-            }
-            styles="w-28"
-            onClick={
-              memberRequests.find((member) => member.user_id === user.user_id)
-                ? handleCancelRequest
-                : handleApply
-            }
-            disabled={user.user_id !== 0 ? false : true}
-          />
+          <>
+            {isInvolvedPage ? (
+              <Button
+                cancel={false}
+                text={"Open Chat"}
+                styles="w-28"
+                onClick={handleOpenChat}
+                disabled={user.user_id !== 0 ? false : true}
+              />
+            ) : (
+              <Button
+                cancel={false}
+                text={
+                  memberRequests.find(
+                    (member) => member.user_id === user.user_id
+                  )
+                    ? "Unsubscribe"
+                    : "Apply"
+                }
+                styles="w-28"
+                onClick={
+                  memberRequests.find(
+                    (member) => member.user_id === user.user_id
+                  )
+                    ? handleCancelRequest
+                    : handleApply
+                }
+                disabled={user.user_id !== 0 ? false : true}
+              />
+            )}
+          </>
         ) : (
           <>
             <div>

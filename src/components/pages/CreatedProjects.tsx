@@ -110,15 +110,24 @@ export default function CreatedProjects() {
     <>
       <div className="md:w-8/12 gap-8 p-5 flex flex-col items-center justify-center">
         {projects.length === 0 ? (
-          <h2 className="text-sky-700 font-semibold text-2xl">
-            There are no projects yet
-          </h2>
+          <>
+            {" "}
+            <h2 className="text-sky-700 font-semibold text-2xl">
+              There are no projects yet!
+            </h2>
+            <Button
+              text="Create"
+              cancel={false}
+              styles={`w-48 self-center`}
+              onClick={() => setActive(true)}
+            />
+          </>
         ) : (
           <>
             <Button
               text="Create"
               cancel={false}
-              styles="w-48 self-end"
+              styles={`w-48 self-end`}
               onClick={() => setActive(true)}
             />
             {projects.map((project: Project, index: number) => {
@@ -139,7 +148,9 @@ export default function CreatedProjects() {
           ref={createProjectForm}
           styles={"flex flex-col gap-8"}
         >
-          <h3 className="text-sky-800 font-semibold text-xl mb-2">Create Project Form</h3>
+          <h3 className="text-sky-800 font-semibold text-xl mb-2">
+            Create Project Form
+          </h3>
           <Input type="text" id="projectName" label="Project Name" required />
           <TextArea
             id="projectDescription"
