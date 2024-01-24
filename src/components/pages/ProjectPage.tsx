@@ -21,6 +21,8 @@ import Button from "../Button";
 import Modal from "../Modal";
 import EditProjectModal from "../EditProjectModal";
 import ProfileModal from "../ProfileModal";
+import io from "socket.io-client";
+const socket = io("http://localhost:3000");
 
 type LocationState = {
   state: {
@@ -96,7 +98,12 @@ export default function ProjectPage() {
     });
   };
 
-  const handleOpenChat = () => {};
+  const handleOpenChat = () => {
+    const room = 123;
+    if (user.user_id !== 0) {
+      socket.emit("join_room", room);
+    }
+  };
 
   return (
     <section className=" w-11/12 md:w-full flex flex-col justify-center items-center">

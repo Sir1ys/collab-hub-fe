@@ -10,9 +10,11 @@ import InvolvedProjects from "./components/pages/InvolvedProjects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
 import Footer from "./components/Footer";
+import Chat from "./components/pages/Chat";
 import "./App.css";
 
 function App() {
+
   return (
     <Provider store={store}>
       <Header />
@@ -33,6 +35,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/chat" element={<Chat />} />
           <Route path="/projects/:project_id" element={<ProjectPage />} />
         </Routes>
       </main>
