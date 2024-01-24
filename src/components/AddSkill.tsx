@@ -27,7 +27,7 @@ export default function AddSkill({allSkills, setUserSkills, setIsEditingSkill, s
     return (
         <>
         <form
-            className="p-6 flex mb-10 bg-sky-100 md:flex-[1_0_41%] 2xl:flex-[1_0_31%] flex-col gap-4 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition m-5"
+            className="p-6 flex mb-4 bg-sky-100 md:flex-[1_0_41%] 2xl:flex-[1_0_31%] flex-col gap-4 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition m-5"
             onSubmit={handleAddSkill}
           >
             <h2 className="text-sky-800 font-semibold text-2xl p-2">

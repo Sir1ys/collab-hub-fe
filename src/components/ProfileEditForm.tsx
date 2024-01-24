@@ -3,11 +3,12 @@ import { useUserDispatch } from "../store/hooks";
 import { setUser } from "../store/userSlice";
 import { patchUser } from "../utils/users_api";
 import Button from "./Button"
+import { RootState } from "../store/store";
 
 export default function ProfileEditForm({ setIsEditingProfile, setName, setBio, setAvatar_url, name, bio, avatar_url } : { setIsEditingProfile: React.Dispatch<React.SetStateAction<boolean>>, setName: React.Dispatch<React.SetStateAction<string>>, setBio: React.Dispatch<React.SetStateAction<string>>, setAvatar_url: React.Dispatch<React.SetStateAction<string>>, name: string, bio: string, avatar_url: string}) {
 
     const dispatch = useUserDispatch();
-    const user = useSelector((state: any) => state.user);
+    const user = useSelector((state: RootState) => state.user);
 
     const handleProfileSubmit = (e: React.SyntheticEvent): void => {
         e.preventDefault();
@@ -21,7 +22,10 @@ export default function ProfileEditForm({ setIsEditingProfile, setName, setBio, 
           avatar_url: avatar_url || user.avatar_url,
           github_url: user.github_url,
         };
-        patchUser(user.user_id, updatedUser)
+        patchUser(user.user_id, {
+          ...updatedUser,
+          password: updatedUser.password || "",
+        })
           .then((res) => {
             dispatch(setUser(res));
             setIsEditingProfile(false);
@@ -31,7 +35,7 @@ export default function ProfileEditForm({ setIsEditingProfile, setName, setBio, 
 
     return (
         <>
-        <div  className="p-6 flex mb-10 bg-sky-100 md:flex-[1_0_41%] 2xl:flex-[1_0_31%] flex-col gap-4 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition m-5">
+        <div  className="p-6 flex mb-4 bg-sky-100 md:flex-[1_0_41%] 2xl:flex-[1_0_31%] flex-col gap-4 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition m-5">
               <h2 className="text-sky-800 font-semibold text-2xl p-2">
                 Fill in one or more fields and click submit.
               </h2>
