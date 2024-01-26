@@ -106,7 +106,7 @@ export default function Profile() {
       avatar_url: avatar_url || user.avatar_url,
     };
 
-    patchUser(user.user_id, updatedUser)  // needed to be refactored later on
+    patchUser(user.user_id, updatedUser) // needed to be refactored later on
       .then((res) => {
         dispatch(setUser(res));
         setIsEditingProfile(false);
@@ -119,7 +119,7 @@ export default function Profile() {
       .then(() => {
         dispatch(removeUser(user));
         setIsDeleting(false);
-        navigate("/s");
+        navigate("/");
       })
       .catch((err) => console.log(err));
   };
