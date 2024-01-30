@@ -21,6 +21,7 @@ import Button from "../Button";
 import Modal from "../Modal";
 import EditProjectModal from "../EditProjectModal";
 import ProfileModal from "../ProfileModal";
+import { socket } from "../../App";
 
 type LocationState = {
   state: {
@@ -96,10 +97,16 @@ export default function ProjectPage() {
     });
   };
 
-  const handleOpenChat = () => {};
+  const handleOpenChat = () => {
+    const room = project.project_id;
+    if (user.user_id !== 0) {
+      socket.emit("join_room", room);
+      navigate("/chat", { state: { room: room, project: project } });
+    }
+  };
 
   return (
-    <section className=" w-11/12 md:w-full flex flex-col justify-center items-center">
+    <section className="w-11/12 md:w-full flex flex-col justify-center items-center">
       <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-6 rounded-lg">
         <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
           {projectState.project_name}

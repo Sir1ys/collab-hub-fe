@@ -10,13 +10,16 @@ import InvolvedProjects from "./components/pages/InvolvedProjects";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
 import Footer from "./components/Footer";
+import Chat from "./components/pages/Chat";
 import "./App.css";
+import io from "socket.io-client";
+export const socket = io("http://localhost:3000");
 
 function App() {
   return (
     <Provider store={store}>
       <Header />
-      <main className="text-center flex flex-col justify-center items-center">
+      <main className="text-center flex flex-col justify-center items-center m-4">
         <Routes>
           <Route path="/" element={<Projects />} />
           <Route
@@ -33,6 +36,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/chat" element={<Chat socket={socket} />} />
           <Route path="/projects/:project_id" element={<ProjectPage />} />
         </Routes>
       </main>

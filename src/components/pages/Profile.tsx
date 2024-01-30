@@ -59,6 +59,36 @@ export default function Profile() {
     }
   };
 
+  const handleProfileSubmit = (e: any) => {
+    e.preventDefault();
+
+    const updatedUser = {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      name: name || user.name,
+      bio: bio || user.bio,
+      avatar_url: avatar_url || user.avatar_url,
+    };
+
+    patchUser(user.user_id, updatedUser) // needed to be refactored later on
+      .then((res) => {
+        dispatch(setUser(res));
+        setIsEditingProfile(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteAccount = () => {
+    deleteUser(user.user_id)
+      .then(() => {
+        dispatch(removeUser(user));
+        setIsDeleting(false);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <div className="p-6 flex m-10 bg-sky-100 flex-[1_0_30%] md:flex-[1_0_41%] 2xl:flex-[1_0_31%] flex flex-col gap-0.5 rounded-xl border-2 border-sky-500 cursor-pointer hover:shadow-xl hover:scale-105 transition m-5">
