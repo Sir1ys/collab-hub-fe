@@ -40,7 +40,7 @@ export default function Login() {
   }
 
   return (
-    <div className=" p-10 flex flex-col justify-center items-center">
+    <div className="p-10 flex flex-col justify-center items-center relative">
       {signIn ? (
         <>
           <Form
