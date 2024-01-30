@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllSkills } from "../../utils/skills_api";
 import { getSkillsById } from "../../utils/users_api";
 import { type Skill } from "../../types/types";
@@ -6,26 +6,17 @@ import { useSelector } from "react-redux";
 import SkillComponent from "../SkillComponent";
 import Button from "../Button";
 import ProfileEditForm from "../modals/EditProfileModal";
-import AddSkill from "../AddSkill";
+import AddSkillModal from "../modals/AddSkillModal";
 import DeleteAccount from "../modals/DeleteAccountModal";
-import DeleteSkills from "../DeleteSkills";
-import ErrorIcon from "@mui/icons-material/Error";
 import { RootState } from "../../store/store";
 import Modal from "../modals/Modal";
 
 export default function Profile() {
-  const [allSkills, setAllSkills] = useState([]);
-  const [userSkills, setUserSkills] = useState([]);
-  // const [isEditingSkill, setIsEditingSkill] = useState(false);
-  // const [isDeletingSkill, setIsDeletingSkill] = useState(false);
-  // const [isDeleting, setIsDeleting] = useState(false);
+  const [allSkills, setAllSkills] = useState<Skill[]>([]);
+  const [userSkills, setUserSkills] = useState<Skill[]>([]);
   const [editProfileModal, setEditProfileModal] = useState(false);
   const [deleteProfileModal, setDeleteProfileModal] = useState(false);
-  const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
-  const [avatar_url, setAvatar_url] = useState("");
-  const [deleteSkillError, setDeleteSkillError] = useState("");
-  const [addSkillError, setAddSkillError] = useState("");
+  const [addSkillModal, setAddSkillModal] = useState(false);
   const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -38,54 +29,6 @@ export default function Profile() {
       })
       .catch((err) => console.log(err));
   }, [user]);
-
-  // const handleDeleteSkills = () => {
-  //   setIsEditingSkill(false);
-  //   {
-  //     setAddSkillError("");
-  //   }
-  //   setIsDeletingSkill((prevIsDeletingSkill) => !prevIsDeletingSkill);
-  // };
-
-  // const handleEditSkills = () => {
-  //   setIsDeletingSkill(false);
-  //   setDeleteSkillError("");
-  //   setIsEditingSkill((prevIsEditingSkill) => !prevIsEditingSkill);
-  // };
-
-  // const handleEditProfile = () => {
-  //   isEditingProfile ? setIsEditingProfile(false) : setIsEditingProfile(true);
-  // };
-
-  const handleProfileSubmit = (e: any) => {
-    e.preventDefault();
-
-    const updatedUser = {
-      username: user.username,
-      email: user.email,
-      password: user.password,
-      name: name || user.name,
-      bio: bio || user.bio,
-      avatar_url: avatar_url || user.avatar_url,
-    };
-
-    // patchUser(user.user_id, updatedUser) // needed to be refactored later on
-    //   .then((res) => {
-    //     dispatch(setUser(res));
-    //     setIsEditingProfile(false);
-    //   })
-    //   .catch((err) => console.log(err));
-  };
-
-  // const handleDeleteAccount = () => {
-  //   deleteUser(user.user_id)
-  //     .then(() => {
-  //       dispatch(removeUser(user));
-  //       setIsDeleting(false);
-  //       navigate("/");
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
 
   return (
     <>
@@ -121,13 +64,17 @@ export default function Profile() {
               styles="w-40"
               onClick={() => {
                 setEditProfileModal(true);
-                // handleEditProfile();
-                // setIsDeleting(false);
-                // setIsDeletingSkill(false);
-                // setIsEditingSkill(false);
               }}
               cancel={false}
               type="button"
+            />
+            <Button
+              text="Add Skill"
+              styles="w-40"
+              onClick={() => {
+                setAddSkillModal(true);
+              }}
+              cancel={false}
             />
             <Button
               text="Delete Account"
@@ -136,89 +83,16 @@ export default function Profile() {
                 setDeleteProfileModal(true);
               }}
             />
-            {/* <Button
-              text="Add Skill"
-              styles="w-40 self-center"
-              onClick={() => {
-                handleEditSkills();
-                setIsDeleting(false);
-                setIsEditingProfile(false);
-              }}
-              cancel={false}
-              type="submit"
-            />
-            <Button
-              text="Delete Skill"
-              styles="w-40 self-center"
-              onClick={() => {
-                handleDeleteSkills();
-                setIsDeleting(false);
-                setIsEditingProfile(false);
-              }}
-              cancel={false}
-              type="submit"
-            />
-            <Button
-              text="Delete Account"
-              styles="w-40 self-center"
-              onClick={() => {
-                setIsDeleting(true);
-                setIsDeletingSkill(false);
-                setIsEditingSkill(false);
-                setIsEditingProfile(false);
-              }}
-              type="submit"
-            /> */}
           </div>
         </div>
       </div>
 
-      <section>
-        <Modal active={editProfileModal} setActive={setEditProfileModal}>
-          <ProfileEditForm setActive={setEditProfileModal} />
-        </Modal>
-        {/* {isEditingProfile && (
-          <ProfileEditForm
-            setIsEditingProfile={setIsEditingProfile}
-            setName={setName}
-            setBio={setBio}
-            setAvatar_url={setAvatar_url}
-            name={name}
-            bio={bio}
-            avatar_url={avatar_url}
-          />
-        )} */}
-
-        {/* {isDeletingSkill && (
-          <DeleteSkills
-            userSkills={userSkills}
-            setUserSkills={setUserSkills as Dispatch<SetStateAction<Skill[]>>}
-            setIsDeletingSkill={setIsDeletingSkill}
-            setDeleteSkillError={setDeleteSkillError}
-          />
-        )}
-
-        {isEditingSkill && (
-          <AddSkill
-            allSkills={allSkills}
-            setUserSkills={setUserSkills as Dispatch<SetStateAction<Skill[]>>}
-            setIsEditingSkill={setIsEditingSkill}
-            setAddSkillError={setAddSkillError}
-          />
-        )} */}
-        {deleteSkillError && (
-          <p className="text-red-700 mb-3">
-            <ErrorIcon /> {deleteSkillError}
-          </p>
-        )}
-        {addSkillError && (
-          <p className="text-red-700 mb-3">
-            <ErrorIcon />
-            {addSkillError}
-          </p>
-        )}
-      </section>
-
+      <Modal active={editProfileModal} setActive={setEditProfileModal}>
+        <ProfileEditForm setActive={setEditProfileModal} />
+      </Modal>
+      <Modal active={addSkillModal} setActive={setAddSkillModal}>
+        <AddSkillModal setActive={setAddSkillModal} setSkills={setUserSkills} />
+      </Modal>
       <Modal active={deleteProfileModal} setActive={setDeleteProfileModal}>
         <DeleteAccount setActive={setDeleteProfileModal} />
       </Modal>

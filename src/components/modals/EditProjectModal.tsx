@@ -22,6 +22,13 @@ type Props = {
   setProjectState: React.Dispatch<React.SetStateAction<Project>>;
 };
 
+export const formatSkills = (skills: Skill[]) => {
+  return skills.map((skill) => ({
+    label: skill.skill_name,
+    value: skill.skill_id,
+  }));
+};
+
 export default function EditProjectModal({
   project,
   active,
@@ -74,13 +81,6 @@ export default function EditProjectModal({
     setActive(false);
   };
 
-  const formatSkills = (skills: Skill[]) => {
-    return skills.map((skill) => ({
-      label: skill.skill_name,
-      value: skill.skill_id,
-    }));
-  };
-
   const formatStatuses = (statuses: StatusObject[]) => {
     return statuses.map((status) => ({
       label: status.status_name,
@@ -113,21 +113,13 @@ export default function EditProjectModal({
         <h3 className="text-sky-800 font-semibold text-xl mb-2">
           Edit Project Form
         </h3>
-        <Input
-          type="text"
-          id="projectName"
-          label="Project Name"
-        />
+        <Input type="text" id="projectName" label="Project Name" />
         <TextArea
           id="projectDescription"
           label="Project Description"
           placeholder="Write the description here..."
         />
-        <Input
-          type="number"
-          id="membersRequired"
-          label="Members Required"
-        />
+        <Input type="number" id="membersRequired" label="Members Required" />
         <SelectElement
           value={selectValues}
           onChange={(o) => setSelectValues(o)}
