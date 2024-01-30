@@ -106,7 +106,7 @@ export default function ProjectPage() {
   };
 
   return (
-    <section className=" w-11/12 md:w-full flex flex-col justify-center items-center">
+    <section className="w-11/12 md:w-full flex flex-col justify-center items-center">
       <article className="w-full max-w-5xl m-5 px-12 py-12 border-2 border-sky-700 shadow-xl flex flex-col gap-6 rounded-lg">
         <h2 className="text-sky-800 text-2xl font-semibold text-center relative">
           {projectState.project_name}

@@ -19,7 +19,7 @@ function App() {
   return (
     <Provider store={store}>
       <Header />
-      <main className="text-center flex flex-col justify-center items-center">
+      <main className="text-center flex flex-col justify-center items-center m-4">
         <Routes>
           <Route path="/" element={<Projects />} />
           <Route

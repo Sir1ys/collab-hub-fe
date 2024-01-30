@@ -40,8 +40,8 @@ export default function Header() {
     },
     {
       text: user.user_id !== 0 ? "Profile" : "",
-      path: user.user_id !== 0 ? "/profile": ""
-    }
+      path: user.user_id !== 0 ? "/profile" : "",
+    },
   ];
 
   let secondaryLinks = [
@@ -63,7 +63,6 @@ export default function Header() {
     dispatch(removeUser());
     localStorage.clear();
     navigate("/");
-
   };
 
   return (
@@ -99,7 +98,7 @@ export default function Header() {
                 className="md:my-0 my-7 md:last:my-0 md:hover:bg-inherit rounded-md"
               >
                 {text !== "My Projects" ? (
-                  <Link text={text} path={path} styles="p-2" />
+                  <Link text={text} path={path} styles="p-2" onClick={() => setOpen(false)}/>
                 ) : (
                   <>
                     <Link
@@ -117,7 +116,7 @@ export default function Header() {
                     >
                       {secondaryLinks.map(({ text, path }, index) => {
                         return (
-                          <li key={index}>
+                          <li key={index} onClick={() => setOpen(false)}>
                             <Link text={text} path={path} styles="p-2" />
                           </li>
                         );
