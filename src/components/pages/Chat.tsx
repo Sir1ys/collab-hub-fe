@@ -11,9 +11,10 @@ type Props = {
 
 type Message = {
   room: string;
-  author: User;
+  author_id: number | string;
   message: string;
   time: string;
+  author_avatar_url: string;
 };
 
 export default function Chat({ socket }: Props) {
@@ -27,9 +28,10 @@ export default function Chat({ socket }: Props) {
     if (message.current !== null) {
       const messageData: Message = {
         room: room,
-        author: user,
+        author_id: user.user_id,
         message: message.current.value,
         time: new Date().toLocaleTimeString(),
+        author_avatar_url: user.avatar_url,
       };
 
       await socket.emit("send_message", messageData);
@@ -61,23 +63,23 @@ export default function Chat({ socket }: Props) {
           <div
             key={index}
             className={`flex items-center gap-2 ${
-              user.username === m.author.username ? "self-end" : "self-start"
+              user.user_id === m.author_id ? "self-end" : "self-start"
             }`}
           >
             <img
               className={`w-16 h-16 rounded-full ${
-                user.username === m.author.username ? "order-1" : ""
+                user.user_id === m.author_id ? "order-1" : ""
               }`}
               src={`${
-                user.username === m.author.username
+                user.user_id === m.author_id
                   ? user.avatar_url
-                  : m.author.avatar_url
+                  : m.author_avatar_url
               }`}
               alt="The avatar of user"
             />
             <span
               className={`p-2 rounded-xl ${
-                user.username === m.author.username
+                user.user_id === m.author_id
                   ? "bg-sky-300 text-sky-900"
                   : "bg-sky-800 text-white"
               }`}
