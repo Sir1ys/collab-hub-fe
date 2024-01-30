@@ -117,19 +117,16 @@ export default function EditProjectModal({
           type="text"
           id="projectName"
           label="Project Name"
-          styles="w-full"
         />
         <TextArea
           id="projectDescription"
           label="Project Description"
           placeholder="Write the description here..."
-          styles="w-full"
         />
         <Input
           type="number"
           id="membersRequired"
           label="Members Required"
-          styles="w-full"
         />
         <SelectElement
           value={selectValues}

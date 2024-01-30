@@ -46,7 +46,7 @@ export default function Login() {
           <Form
             onSave={handleSignIn}
             ref={signInForm}
-            styles={"flex flex-col justify-center items-center relative w-6/12"}
+            styles={"flex flex-col justify-center items-center relative w-full"}
           >
             <h3 className="text-sky-800 text-center font-semibold text-xl mb-8">
               Sign In

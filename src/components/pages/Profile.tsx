@@ -7,7 +7,7 @@ import SkillComponent from "../SkillComponent";
 import Button from "../Button";
 import ProfileEditForm from "../modals/EditProfileModal";
 import AddSkill from "../AddSkill";
-import DeleteAccount from "../DeleteAccount";
+import DeleteAccount from "../modals/DeleteAccountModal";
 import DeleteSkills from "../DeleteSkills";
 import ErrorIcon from "@mui/icons-material/Error";
 import { RootState } from "../../store/store";
@@ -20,6 +20,7 @@ export default function Profile() {
   // const [isDeletingSkill, setIsDeletingSkill] = useState(false);
   // const [isDeleting, setIsDeleting] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);
+  const [deleteProfileModal, setDeleteProfileModal] = useState(false);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [avatar_url, setAvatar_url] = useState("");
@@ -128,6 +129,13 @@ export default function Profile() {
               cancel={false}
               type="button"
             />
+            <Button
+              text="Delete Account"
+              styles="w-40"
+              onClick={() => {
+                setDeleteProfileModal(true);
+              }}
+            />
             {/* <Button
               text="Add Skill"
               styles="w-40 self-center"
@@ -211,14 +219,9 @@ export default function Profile() {
         )}
       </section>
 
-      <section>
-        {/* {isDeleting && (
-          <DeleteAccount
-            setIsDeleting={setIsDeleting}
-            setIsEditingSkill={setIsEditingSkill}
-          />
-        )} */}
-      </section>
+      <Modal active={deleteProfileModal} setActive={setDeleteProfileModal}>
+        <DeleteAccount setActive={setDeleteProfileModal} />
+      </Modal>
     </>
   );
 }
