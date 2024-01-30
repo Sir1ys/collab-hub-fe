@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import Modal from "./Modal";
-import Form, { type FormHandle } from "./Form";
-import Button from "./Button";
-import { Input } from "./Input";
-import { TextArea } from "./TextArea";
+import Form, { type FormHandle } from "../Form";
+import Button from "../Button";
+import { Input } from "../Input";
+import { TextArea } from "../TextArea";
 import {
   type Project,
   type Skill,
   type SelectOptions,
   type StatusObject,
-} from "../types/types";
-import { getProjectSkills, updateProject } from "../utils/projects_api";
-import SelectElement from "./SelectElement";
-import { getAllSkills } from "../utils/skills_api";
-import { getStatuses } from "../utils/status";
+} from "../../types/types";
+import { getProjectSkills, updateProject } from "../../utils/projects_api";
+import SelectElement from "../SelectElement";
+import { getAllSkills } from "../../utils/skills_api";
+import { getStatuses } from "../../utils/status";
 
 type Props = {
   project: Project;

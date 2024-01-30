@@ -9,7 +9,7 @@ import {
 import ProjectComponent from "../ProjectComponent";
 import { Input } from "../Input";
 import { TextArea } from "../TextArea";
-import Modal from "../Modal";
+import Modal from "../modals/Modal";
 import Button from "../Button";
 import Form, { type FormHandle } from "../Form";
 import { getAllSkills } from "../../utils/skills_api";

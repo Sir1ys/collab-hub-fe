@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { type Skill, type User, type MemberRequest } from "../types/types";
-import { getSkillsById, getUserById } from "../utils/users_api";
-import SkillComponent from "./SkillComponent";
+import { type Skill, type User, type MemberRequest } from "../../types/types";
+import { getSkillsById, getUserById } from "../../utils/users_api";
+import SkillComponent from "../SkillComponent";
 import Modal from "./Modal";
-import Button from "./Button";
-import { deleteMemberRequest, postMember } from "../utils/projects_api";
+import Button from "../Button";
+import { deleteMemberRequest, postMember } from "../../utils/projects_api";
 
 type Props = {
   active: boolean;

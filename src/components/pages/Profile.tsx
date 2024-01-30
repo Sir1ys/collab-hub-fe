@@ -1,26 +1,25 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getAllSkills } from "../../utils/skills_api";
-import {
-  getSkillsById
-} from "../../utils/users_api";
+import { getSkillsById } from "../../utils/users_api";
 import { type Skill } from "../../types/types";
 import { useSelector } from "react-redux";
 import SkillComponent from "../SkillComponent";
 import Button from "../Button";
-import ProfileEditForm from "../ProfileEditForm";
+import ProfileEditForm from "../modals/EditProfileModal";
 import AddSkill from "../AddSkill";
 import DeleteAccount from "../DeleteAccount";
 import DeleteSkills from "../DeleteSkills";
 import ErrorIcon from "@mui/icons-material/Error";
-import { RootState } from "../../store/store"
+import { RootState } from "../../store/store";
+import Modal from "../modals/Modal";
 
 export default function Profile() {
   const [allSkills, setAllSkills] = useState([]);
   const [userSkills, setUserSkills] = useState([]);
-  const [isEditingSkill, setIsEditingSkill] = useState(false);
-  const [isDeletingSkill, setIsDeletingSkill] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  // const [isEditingSkill, setIsEditingSkill] = useState(false);
+  // const [isDeletingSkill, setIsDeletingSkill] = useState(false);
+  // const [isDeleting, setIsDeleting] = useState(false);
+  const [editProfileModal, setEditProfileModal] = useState(false);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [avatar_url, setAvatar_url] = useState("");
@@ -39,25 +38,23 @@ export default function Profile() {
       .catch((err) => console.log(err));
   }, [user]);
 
-  const handleDeleteSkills = () => {
-    setIsEditingSkill(false);
-    {
-      setAddSkillError("");
-    }
-    setIsDeletingSkill((prevIsDeletingSkill) => !prevIsDeletingSkill);
-  };
+  // const handleDeleteSkills = () => {
+  //   setIsEditingSkill(false);
+  //   {
+  //     setAddSkillError("");
+  //   }
+  //   setIsDeletingSkill((prevIsDeletingSkill) => !prevIsDeletingSkill);
+  // };
 
-  const handleEditSkills = () => {
-    setIsDeletingSkill(false);
-    setDeleteSkillError("");
-    setIsEditingSkill((prevIsEditingSkill) => !prevIsEditingSkill);
-  };
+  // const handleEditSkills = () => {
+  //   setIsDeletingSkill(false);
+  //   setDeleteSkillError("");
+  //   setIsEditingSkill((prevIsEditingSkill) => !prevIsEditingSkill);
+  // };
 
-  const handleEditProfile = () => {
-    {
-      isEditingProfile ? setIsEditingProfile(false) : setIsEditingProfile(true);
-    }
-  };
+  // const handleEditProfile = () => {
+  //   isEditingProfile ? setIsEditingProfile(false) : setIsEditingProfile(true);
+  // };
 
   const handleProfileSubmit = (e: any) => {
     e.preventDefault();
@@ -71,23 +68,23 @@ export default function Profile() {
       avatar_url: avatar_url || user.avatar_url,
     };
 
-    patchUser(user.user_id, updatedUser) // needed to be refactored later on
-      .then((res) => {
-        dispatch(setUser(res));
-        setIsEditingProfile(false);
-      })
-      .catch((err) => console.log(err));
+    // patchUser(user.user_id, updatedUser) // needed to be refactored later on
+    //   .then((res) => {
+    //     dispatch(setUser(res));
+    //     setIsEditingProfile(false);
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
-  const handleDeleteAccount = () => {
-    deleteUser(user.user_id)
-      .then(() => {
-        dispatch(removeUser(user));
-        setIsDeleting(false);
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
-  };
+  // const handleDeleteAccount = () => {
+  //   deleteUser(user.user_id)
+  //     .then(() => {
+  //       dispatch(removeUser(user));
+  //       setIsDeleting(false);
+  //       navigate("/");
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <>
@@ -120,17 +117,18 @@ export default function Profile() {
           <div className="flex flex-wrap justify-center gap-4">
             <Button
               text="Edit Profile"
-              styles="w-40 self-center"
+              styles="w-40"
               onClick={() => {
-                handleEditProfile();
-                setIsDeleting(false);
-                setIsDeletingSkill(false);
-                setIsEditingSkill(false);
+                setEditProfileModal(true);
+                // handleEditProfile();
+                // setIsDeleting(false);
+                // setIsDeletingSkill(false);
+                // setIsEditingSkill(false);
               }}
               cancel={false}
-              type="submit"
+              type="button"
             />
-            <Button
+            {/* <Button
               text="Add Skill"
               styles="w-40 self-center"
               onClick={() => {
@@ -162,13 +160,16 @@ export default function Profile() {
                 setIsEditingProfile(false);
               }}
               type="submit"
-            />
+            /> */}
           </div>
         </div>
       </div>
 
       <section>
-        {isEditingProfile && (
+        <Modal active={editProfileModal} setActive={setEditProfileModal}>
+          <ProfileEditForm setActive={setEditProfileModal} />
+        </Modal>
+        {/* {isEditingProfile && (
           <ProfileEditForm
             setIsEditingProfile={setIsEditingProfile}
             setName={setName}
@@ -178,9 +179,9 @@ export default function Profile() {
             bio={bio}
             avatar_url={avatar_url}
           />
-        )}
+        )} */}
 
-        {isDeletingSkill && (
+        {/* {isDeletingSkill && (
           <DeleteSkills
             userSkills={userSkills}
             setUserSkills={setUserSkills as Dispatch<SetStateAction<Skill[]>>}
@@ -196,18 +197,27 @@ export default function Profile() {
             setIsEditingSkill={setIsEditingSkill}
             setAddSkillError={setAddSkillError}
           />
+        )} */}
+        {deleteSkillError && (
+          <p className="text-red-700 mb-3">
+            <ErrorIcon /> {deleteSkillError}
+          </p>
         )}
-        {deleteSkillError && <p className="text-red-700 mb-3"><ErrorIcon /> {deleteSkillError}</p>}
-        {addSkillError && <p className="text-red-700 mb-3"><ErrorIcon />{addSkillError}</p>}
+        {addSkillError && (
+          <p className="text-red-700 mb-3">
+            <ErrorIcon />
+            {addSkillError}
+          </p>
+        )}
       </section>
 
       <section>
-        {isDeleting && (
+        {/* {isDeleting && (
           <DeleteAccount
             setIsDeleting={setIsDeleting}
             setIsEditingSkill={setIsEditingSkill}
           />
-        )}
+        )} */}
       </section>
     </>
   );

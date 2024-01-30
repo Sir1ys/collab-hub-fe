@@ -9,7 +9,7 @@ type Props = {
 export const TextArea = forwardRef<HTMLTextAreaElement, Props>(
   ({ id, label, styles, ...props }, ref) => {
     return (
-      <p className={`relative w-72 ${styles}`}>
+      <p className={`relative w-full ${styles}`}>
         <label
           htmlFor={id}
           className="absolute left-0 px-2.5 text-sky-500 uppercase translate-x-4 translate-y-[-1.375rem] bg-sky-50"

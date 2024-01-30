@@ -18,9 +18,9 @@ import {
 import { useUserSelector } from "../../store/hooks";
 import SkillComponent from "../SkillComponent";
 import Button from "../Button";
-import Modal from "../Modal";
-import EditProjectModal from "../EditProjectModal";
-import ProfileModal from "../ProfileModal";
+import Modal from "../modals/Modal";
+import EditProjectModal from "../modals/EditProjectModal";
+import ProfileModal from "../modals/ProfileModal";
 import { socket } from "../../App";
 
 type LocationState = {
