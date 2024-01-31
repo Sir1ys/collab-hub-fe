@@ -4,6 +4,10 @@ import { type Socket } from "socket.io-client";
 import { type User } from "../../types/types";
 import { useUserSelector } from "../../store/hooks";
 import SendIcon from "@mui/icons-material/Send";
+import {
+  getAllMEssagesByChatId,
+  postMessageByChatId,
+} from "../../utils/chat_api";
 
 type Props = {
   socket: Socket;
@@ -11,10 +15,9 @@ type Props = {
 
 type Message = {
   room: string;
-  author_id: number | string;
+  user_id: number | string;
   message: string;
-  time: string;
-  author_avatar_url: string;
+  avatar_url: string;
 };
 
 export default function Chat({ socket }: Props) {
@@ -28,19 +31,27 @@ export default function Chat({ socket }: Props) {
     if (message.current !== null) {
       const messageData: Message = {
         room: room,
-        author_id: user.user_id,
+        user_id: user.user_id,
         message: message.current.value,
-        time: new Date().toLocaleTimeString(),
-        author_avatar_url: user.avatar_url,
+        avatar_url: user.avatar_url,
       };
 
       await socket.emit("send_message", messageData);
+      await postMessageByChatId(room, {
+        message: message.current.value,
+        user_id: user.user_id,
+        avatar_url: user.avatar_url,
+      });
       setMessageList((prevState) => [...prevState, messageData]);
       message.current.value = "";
     }
   };
 
   useEffect(() => {
+    getAllMEssagesByChatId(room).then((response: Message[]) => {
+      setMessageList(response);
+    });
+
     const messageReceiver = (data: Message) => {
       setMessageList((prevState) => [...prevState, data]);
     };
@@ -63,23 +74,21 @@ export default function Chat({ socket }: Props) {
           <div
             key={index}
             className={`flex items-center gap-2 ${
-              user.user_id === m.author_id ? "self-end" : "self-start"
+              user.user_id === m.user_id ? "self-end" : "self-start"
             }`}
           >
             <img
               className={`w-16 h-16 rounded-full ${
-                user.user_id === m.author_id ? "order-1" : ""
+                user.user_id === m.user_id ? "order-1" : ""
               }`}
               src={`${
-                user.user_id === m.author_id
-                  ? user.avatar_url
-                  : m.author_avatar_url
+                user.user_id === m.user_id ? user.avatar_url : m.avatar_url
               }`}
               alt="The avatar of user"
             />
             <span
               className={`p-2 rounded-xl ${
-                user.user_id === m.author_id
+                user.user_id === m.user_id
                   ? "bg-sky-300 text-sky-900"
                   : "bg-sky-800 text-white"
               }`}

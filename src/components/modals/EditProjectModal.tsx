@@ -1,25 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import Modal from "./Modal";
-import Form, { type FormHandle } from "./Form";
-import Button from "./Button";
-import { Input } from "./Input";
-import { TextArea } from "./TextArea";
+import Form, { type FormHandle } from "../Form";
+import Button from "../Button";
+import { Input } from "../Input";
+import { TextArea } from "../TextArea";
 import {
   type Project,
   type Skill,
   type SelectOptions,
   type StatusObject,
-} from "../types/types";
-import { getProjectSkills, updateProject } from "../utils/projects_api";
-import SelectElement from "./SelectElement";
-import { getAllSkills } from "../utils/skills_api";
-import { getStatuses } from "../utils/status";
+} from "../../types/types";
+import { getProjectSkills, updateProject } from "../../utils/projects_api";
+import SelectElement from "../SelectElement";
+import { getAllSkills } from "../../utils/skills_api";
+import { getStatuses } from "../../utils/status";
 
 type Props = {
   project: Project;
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
   setProjectState: React.Dispatch<React.SetStateAction<Project>>;
+};
+
+export const formatSkills = (skills: Skill[]) => {
+  return skills.map((skill) => ({
+    label: skill.skill_name,
+    value: skill.skill_id,
+  }));
 };
 
 export default function EditProjectModal({
@@ -74,13 +81,6 @@ export default function EditProjectModal({
     setActive(false);
   };
 
-  const formatSkills = (skills: Skill[]) => {
-    return skills.map((skill) => ({
-      label: skill.skill_name,
-      value: skill.skill_id,
-    }));
-  };
-
   const formatStatuses = (statuses: StatusObject[]) => {
     return statuses.map((status) => ({
       label: status.status_name,
@@ -113,24 +113,13 @@ export default function EditProjectModal({
         <h3 className="text-sky-800 font-semibold text-xl mb-2">
           Edit Project Form
         </h3>
-        <Input
-          type="text"
-          id="projectName"
-          label="Project Name"
-          styles="w-full"
-        />
+        <Input type="text" id="projectName" label="Project Name" />
         <TextArea
           id="projectDescription"
           label="Project Description"
           placeholder="Write the description here..."
-          styles="w-full"
         />
-        <Input
-          type="number"
-          id="membersRequired"
-          label="Members Required"
-          styles="w-full"
-        />
+        <Input type="number" id="membersRequired" label="Members Required" />
         <SelectElement
           value={selectValues}
           onChange={(o) => setSelectValues(o)}

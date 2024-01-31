@@ -9,7 +9,7 @@ import {
 import ProjectComponent from "../ProjectComponent";
 import { Input } from "../Input";
 import { TextArea } from "../TextArea";
-import Modal from "../Modal";
+import Modal from "../modals/Modal";
 import Button from "../Button";
 import Form, { type FormHandle } from "../Form";
 import { getAllSkills } from "../../utils/skills_api";
@@ -22,6 +22,9 @@ import {
 } from "../../types/types";
 import SelectElement from "../SelectElement";
 import { getStatuses } from "../../utils/status";
+import { addMemberToChat, createChat } from "../../utils/chat_api";
+
+type ChatResponse = { chat_id: string };
 
 export default function CreatedProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -68,6 +71,11 @@ export default function CreatedProjects() {
         });
         await Promise.all(promises);
         setSelectValues([]);
+        return projectDetails;
+      })
+      .then((projectDetails) => createChat(`${projectDetails.project_id}`))
+      .then((response: ChatResponse) => {
+        addMemberToChat(user.user_id, response.chat_id);
       })
 
       .catch((err) => console.log(err));

@@ -40,13 +40,13 @@ export default function Login() {
   }
 
   return (
-    <div className=" p-10 flex flex-col justify-center items-center">
+    <div className="p-10 flex flex-col justify-center items-center relative">
       {signIn ? (
         <>
           <Form
             onSave={handleSignIn}
             ref={signInForm}
-            styles={"flex flex-col justify-center items-center relative w-6/12"}
+            styles={"flex flex-col justify-center items-center relative w-full"}
           >
             <h3 className="text-sky-800 text-center font-semibold text-xl mb-8">
               Sign In
