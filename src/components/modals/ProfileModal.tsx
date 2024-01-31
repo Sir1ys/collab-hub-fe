@@ -5,6 +5,7 @@ import SkillComponent from "../SkillComponent";
 import Modal from "./Modal";
 import Button from "../Button";
 import { deleteMemberRequest, postMember } from "../../utils/projects_api";
+import { addMemberToChat } from "../../utils/chat_api";
 
 type Props = {
   active: boolean;
@@ -28,6 +29,7 @@ export default function ProfileModal({
     if (user_id !== 0) {
       postMember(project_id, user_id)
         .then(() => {
+          addMemberToChat(user_id, `${project_id}`);
           setMemberRequests((prevReq) => {
             return [...prevReq].filter((req) => req.user_id !== user_id);
           });

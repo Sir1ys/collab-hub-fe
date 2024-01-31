@@ -47,6 +47,7 @@ export default function ProjectPage() {
   const [activeProfileModal, setActiveProfileModal] = useState<boolean>(false);
   const [textModal, setTextModal] = useState<string>("");
   const user = useUserSelector((state) => state.user);
+  
 
   useEffect(() => {
     getProjectSkills(project.project_id).then((skills: Skill[]) => {
@@ -191,17 +192,23 @@ export default function ProjectPage() {
               </div>
             </div>
 
-            <div className="self-start flex gap-4">
+            <div className="md:self-start flex flex-col md:flex-row justify-center items-center gap-4">
+              <Button
+                cancel={false}
+                text="Chat"
+                styles="w-full md:w-28"
+                onClick={() => handleOpenChat()}
+              />
               <Button
                 cancel={false}
                 text="Edit"
-                styles="w-28"
+                styles="w-full md:w-28"
                 onClick={() => setActiveEditModal(true)}
               />
               <Button
                 cancel={true}
                 text="Delete"
-                styles="w-28"
+                styles="w-full md:w-28"
                 onClick={() => handleDeleteProject()}
               />
             </div>
