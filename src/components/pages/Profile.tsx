@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import SkillComponent from "../SkillComponent";
 import Button from "../Button";
 import ProfileEditForm from "../modals/EditProfileModal";
-import AddSkillModal from "../modals/AddSkillModal";
+import UpdateSkillModal from "../modals/UpdateSkillModal";
 import DeleteAccount from "../modals/DeleteAccountModal";
 import { RootState } from "../../store/store";
 import Modal from "../modals/Modal";
@@ -20,14 +20,16 @@ export default function Profile() {
   const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    getSkillsById(user.user_id).then((skills) => {
-      setUserSkills(skills);
-    });
-    getAllSkills()
-      .then((skills) => {
-        setAllSkills(skills);
-      })
-      .catch((err) => console.log(err));
+    if (user.user_id !== 0) {
+      getSkillsById(user.user_id).then((skills) => {
+        setUserSkills(skills);
+      });
+      getAllSkills()
+        .then((skills) => {
+          setAllSkills(skills);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [user]);
 
   return (
@@ -58,24 +60,26 @@ export default function Profile() {
             })}
           </ul>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              text="Edit Profile"
-              styles="w-40"
-              onClick={() => {
-                setEditProfileModal(true);
-              }}
-              cancel={false}
-              type="button"
-            />
-            <Button
-              text="Add Skill"
-              styles="w-40"
-              onClick={() => {
-                setAddSkillModal(true);
-              }}
-              cancel={false}
-            />
+          <div className="flex flex-wrap flex-col items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 ">
+              <Button
+                text="Edit Profile"
+                styles="w-40"
+                onClick={() => {
+                  setEditProfileModal(true);
+                }}
+                cancel={false}
+                type="button"
+              />
+              <Button
+                text="Update Skills"
+                styles="w-40"
+                onClick={() => {
+                  setAddSkillModal(true);
+                }}
+                cancel={false}
+              />
+            </div>
             <Button
               text="Delete Account"
               styles="w-40"
@@ -91,7 +95,13 @@ export default function Profile() {
         <ProfileEditForm setActive={setEditProfileModal} />
       </Modal>
       <Modal active={addSkillModal} setActive={setAddSkillModal}>
-        <AddSkillModal setActive={setAddSkillModal} setSkills={setUserSkills} />
+        <UpdateSkillModal
+          setActive={setAddSkillModal}
+          allSkills={allSkills}
+          setAllSkills={setAllSkills}
+          userSkills={userSkills}
+          setUserSkills={setUserSkills}
+        />
       </Modal>
       <Modal active={deleteProfileModal} setActive={setDeleteProfileModal}>
         <DeleteAccount setActive={setDeleteProfileModal} />
