@@ -39,9 +39,17 @@ export const getProjectSkills = (projectId: number) => {
 };
 
 export const addProjectSkill = (projectId: number, skillName: string) => {
-  return projectsAPI.post(`${projectId}/skills`, {
-    skill: { skill_name: skillName },
-  });
+  return projectsAPI
+    .post(`${projectId}/skills`, {
+      skill: { skill_name: skillName },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const deleteProjectSkill = (projectId: number, skillId: string) => {
+  return projectsAPI.delete(`${projectId}/skills/${skillId}`);
 };
 
 export const getProjectStatus = (projectId: number) => {

@@ -99,8 +99,9 @@ export default function Profile() {
           setActive={setAddSkillModal}
           allSkills={allSkills}
           setAllSkills={setAllSkills}
-          userSkills={userSkills}
-          setUserSkills={setUserSkills}
+          currentSkills={userSkills}
+          setCurrentSkills={setUserSkills}
+          type="profile"
         />
       </Modal>
       <Modal active={deleteProfileModal} setActive={setDeleteProfileModal}>

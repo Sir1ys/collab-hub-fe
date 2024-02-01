@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { addSkill, deleteUserSkill } from "../../utils/users_api";
+import { addUserSkill, deleteUserSkill } from "../../utils/users_api";
 import { type Skill, type SelectOptions } from "../../types/types";
 import { RootState } from "../../store/store";
-import { formatSkills } from "./EditProjectModal";
+import { formatSkills } from "../../utils/formatting";
 import Form from "../Form";
 import Button from "../Button";
 import SelectElement from "../SelectElement";
+import { addProjectSkill, deleteProjectSkill } from "../../utils/projects_api";
 
 type Props = {
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
   allSkills: Skill[];
   setAllSkills: React.Dispatch<React.SetStateAction<Skill[]>>;
-  userSkills: Skill[];
-  setUserSkills: React.Dispatch<React.SetStateAction<Skill[]>>;
+  currentSkills: Skill[];
+  setCurrentSkills: React.Dispatch<React.SetStateAction<Skill[]>>;
+  type: "profile" | "project";
+  projectId?: number;
 };
 
 type NewSkill = {
@@ -21,11 +24,18 @@ type NewSkill = {
   skill_id: number;
 };
 
-export default function UpdateSkill({
+type ProjectSkill = {
+  project_id: number;
+  skill_id: number;
+};
+
+export default function UpdateSkillModal({
   setActive,
   allSkills,
-  userSkills,
-  setUserSkills,
+  currentSkills,
+  setCurrentSkills,
+  type,
+  projectId,
 }: Props) {
   const user = useSelector((state: RootState) => state.user);
   const [addSkillOptions, setAddSKillOptions] = useState<SelectOptions[]>([]);
@@ -37,48 +47,71 @@ export default function UpdateSkill({
     useState<SelectOptions>();
 
   const handleAddSkill = () => {
-    if (selectSkillToAdd?.value) {
-      addSkill(user.user_id, +selectSkillToAdd.value)
-        .then((response: NewSkill) => {
-          const newSkill = allSkills.find(
-            (skill) => skill.skill_id === response.skill_id
-          );
-          if (newSkill) {
-            setUserSkills((prevSkills) => [...prevSkills, newSkill]);
-          }
-        })
-        .catch((err) => {
-          console.log(err.response.data.msg);
-        });
+    const skillToAdd = selectSkillToAdd?.value;
+    if (skillToAdd) {
+      if (type === "profile") {
+        addUserSkill(user.user_id, +skillToAdd)
+          .then((response: NewSkill) => {
+            const newSkill = allSkills.find(
+              (skill) => skill.skill_id === response.skill_id
+            );
+            if (newSkill) {
+              setCurrentSkills((prevSkills) => [...prevSkills, newSkill]);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (projectId) {
+        addProjectSkill(projectId, selectSkillToAdd.label)
+          .then((response: ProjectSkill) => {
+            const newSkill = allSkills.find(
+              (skill) => skill.skill_id === response.skill_id
+            );
+            if (newSkill) {
+              setCurrentSkills((prevSkills) => [...prevSkills, newSkill]);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
       setActive(false);
       setSelectSkillToAdd(undefined);
     }
   };
 
   const handleDeleteSkill = () => {
-    if (selectSkillToDelete?.value) {
-      deleteUserSkill(user.user_id, +selectSkillToDelete.value).then(() => {
-        setUserSkills((prevSkills) =>
-          prevSkills.filter(
-            (skill) => skill.skill_id !== selectSkillToDelete?.value
-          )
-        );
-        setActive(false);
-        setSelectSkillToDelete(undefined);
-      });
+    const skillToDelete = selectSkillToDelete?.value;
+    if (skillToDelete) {
+      if (type === "profile") {
+        deleteUserSkill(user.user_id, +skillToDelete).then(() => {
+          setCurrentSkills((prevSkills) =>
+            prevSkills.filter((skill) => skill.skill_id !== skillToDelete)
+          );
+        });
+      } else if (projectId) {
+        deleteProjectSkill(projectId, `${skillToDelete}`).then(() => {
+          setCurrentSkills((prevSkills) =>
+            prevSkills.filter((skill) => skill.skill_id !== skillToDelete)
+          );
+        });
+      }
+      setActive(false);
+      setSelectSkillToDelete(undefined);
     }
   };
 
   useEffect(() => {
-    setDeleteSKillOptions(formatSkills(userSkills));
+    setDeleteSKillOptions(formatSkills(currentSkills));
     const newSkills = allSkills.filter((s) => {
-      const userSkill = userSkills.find(
+      const userSkill = currentSkills.find(
         (skill) => skill.skill_id === s.skill_id
       );
       if (userSkill === undefined) return s;
     });
     setAddSKillOptions(formatSkills(newSkills));
-  }, [user, allSkills, userSkills]);
+  }, [user, allSkills, currentSkills]);
 
   return (
     <>
