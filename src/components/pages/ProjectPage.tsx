@@ -22,6 +22,8 @@ import Modal from "../modals/Modal";
 import EditProjectModal from "../modals/EditProjectModal";
 import ProfileModal from "../modals/ProfileModal";
 import { socket } from "../../App";
+import UpdateSkill from "../modals/UpdateSkillModal";
+import { getAllSkills } from "../../utils/skills_api";
 
 type LocationState = {
   state: {
@@ -38,26 +40,31 @@ export default function ProjectPage() {
   } = location as LocationState;
   const [projectState, setProjectState] = useState(project);
   const [isInvolvedPage, setIsInvolvedPage] = useState(involved);
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const [allSkills, setAllSkills] = useState<Skill[]>([]);
+  const [projectSkills, setProjectSkills] = useState<Skill[]>([]);
   const [status, setStatus] = useState<Status>("open");
   const [memberRequests, setMemberRequests] = useState<MemberRequest[]>([]);
   const [currentMemberRequest, setCurrentMemberRequest] = useState<number>(0);
   const [active, setActive] = useState<boolean>(false);
   const [activeEditModal, setActiveEditModal] = useState<boolean>(false);
   const [activeProfileModal, setActiveProfileModal] = useState<boolean>(false);
+  const [activeUpdateSkillModal, setActiveUpdateSkillModal] =
+    useState<boolean>(false);
   const [textModal, setTextModal] = useState<string>("");
   const user = useUserSelector((state) => state.user);
-  
 
   useEffect(() => {
     getProjectSkills(project.project_id).then((skills: Skill[]) => {
-      setSkills(skills);
+      setProjectSkills(skills);
     });
     getProjectStatus(project.project_id).then((status: Status) => {
       setStatus(status);
     });
     getMemberRequestsByProjectId(project.project_id).then((response) => {
       setMemberRequests(response);
+    });
+    getAllSkills().then((skills) => {
+      setAllSkills(skills);
     });
   }, []);
 
@@ -125,7 +132,7 @@ export default function ProjectPage() {
         <h3 className="text-sky-600 text-lg font-medium text-left">
           Skills required:{" "}
           <ul className="flex gap-2 items-center justify-start flex-wrap">
-            {skills.map((skill: Skill, index: number) => {
+            {projectSkills.map((skill: Skill, index: number) => {
               return <SkillComponent key={index} skill={skill} />;
             })}
           </ul>
@@ -201,9 +208,15 @@ export default function ProjectPage() {
               />
               <Button
                 cancel={false}
-                text="Edit"
+                text="Edit Project"
                 styles="w-full md:w-28"
                 onClick={() => setActiveEditModal(true)}
+              />
+              <Button
+                cancel={false}
+                text="Edit Skills"
+                styles="w-full md:w-28"
+                onClick={() => setActiveUpdateSkillModal(true)}
               />
               <Button
                 cancel={true}
@@ -230,6 +243,20 @@ export default function ProjectPage() {
           setActive={setActiveProfileModal}
           setMemberRequests={setMemberRequests}
         />
+        <Modal
+          active={activeUpdateSkillModal}
+          setActive={setActiveUpdateSkillModal}
+        >
+          <UpdateSkill
+            setActive={setActiveUpdateSkillModal}
+            allSkills={allSkills}
+            setAllSkills={setAllSkills}
+            currentSkills={projectSkills}
+            setCurrentSkills={setProjectSkills}
+            projectId={project.project_id}
+            type="project"
+          />
+        </Modal>
       </article>
     </section>
   );
