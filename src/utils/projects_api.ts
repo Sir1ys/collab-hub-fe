@@ -84,6 +84,12 @@ export const deleteMemberRequest = (projectId: number, userId: number) => {
   return projectsAPI.delete(`${projectId}/member-request/${userId}`);
 };
 
+export const getProjectMembers = (projectId: number) => {
+  return projectsAPI
+    .get(`${projectId}/members`)
+    .then((response) => response.data.members);
+};
+
 export const postMember = (projectId: number, userId: number) => {
   return projectsAPI.post(`${projectId}/members`, {
     member: {
@@ -92,4 +98,8 @@ export const postMember = (projectId: number, userId: number) => {
       feedback: "Great addition to the team",
     },
   });
+};
+
+export const deleteProjectMember = (projectId: number, user_id: number) => {
+  return projectsAPI.delete(`/${projectId}/members/${user_id}`);
 };
