@@ -17,18 +17,10 @@ export const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<User>) {
       localStorage.setItem("user", JSON.stringify(action.payload));
-      return (state = { ...action.payload });
+      Object.assign(state, action.payload);
     },
     removeUser(state) {
-      return (state = {
-        user_id: 0,
-        username: "",
-        email: "",
-        name: "",
-        bio: "",
-        avatar_url: "",
-        github_url: "",
-      });
+      Object.assign(state, initialState);
     },
   },
 });

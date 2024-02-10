@@ -10,7 +10,7 @@ import { createUser } from "../utils/users_api";
 import ErrorIcon from "@mui/icons-material/Error";
 import { type User } from "../types/types";
 
-type UserData = {
+export type UserData = {
   email: string;
   bio: string;
   name: string;
@@ -64,9 +64,7 @@ export default function SignUpForm() {
 
     if (!isLastStep) return next();
 
-    createUser({
-      user: data,
-    }).then((user: User) => {
+    createUser(data).then((user: User) => {
       dispatch(setUser(user));
       navigate("/");
     });

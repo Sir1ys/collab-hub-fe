@@ -51,7 +51,6 @@ export default function ProjectPage() {
     project_name,
     required_members,
   } = projectState;
-  const [isInvolvedPage, setIsInvolvedPage] = useState(involved);
   const [allSkills, setAllSkills] = useState<Skill[]>([]);
   const [projectSkills, setProjectSkills] = useState<Skill[]>([]);
   const [status, setStatus] = useState<Status>("open");
@@ -162,7 +161,7 @@ export default function ProjectPage() {
         </p>
         {project_author !== user_id ? (
           <>
-            {isInvolvedPage ||
+            {involved ||
             projectMembers.find((member) => member.user_id === user_id) ? (
               <Button
                 cancel={false}
