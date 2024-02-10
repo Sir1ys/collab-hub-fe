@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Socket } from "socket.io-client";
-import { type User } from "../../types/types";
 import { useUserSelector } from "../../store/hooks";
 import SendIcon from "@mui/icons-material/Send";
 import {

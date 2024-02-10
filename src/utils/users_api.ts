@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CreatedUser } from "../types/types";
+import { UserData } from "../components/SignUpForm";
 
 const usersAPI = axios.create({
   baseURL: "https://collub-hub.onrender.com/api/users",
@@ -22,8 +23,8 @@ export const getUserByEmail = (email: string) => {
   });
 };
 
-export const createUser = (user: CreatedUser) => {
-  return usersAPI.post(`/`, user).then((response) => {
+export const createUser = (user: UserData) => {
+  return usersAPI.post(`/`, { user }).then((response) => {
     return response.data.user;
   });
 };
