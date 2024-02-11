@@ -12,8 +12,10 @@ import Profile from "./components/pages/Profile";
 import Footer from "./components/Footer";
 import Chat from "./components/pages/Chat";
 import "./App.css";
-import io from "socket.io-client";
-export const socket = io("http://localhost:3000");
+
+import socketIO from 'socket.io-client';
+
+export const socket = socketIO("https://collub-hub.onrender.com:3000");
 
 function App() {
   return (
