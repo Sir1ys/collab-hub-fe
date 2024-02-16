@@ -9,6 +9,7 @@ import { setUser } from "../store/userSlice";
 import { createUser } from "../utils/users_api";
 import ErrorIcon from "@mui/icons-material/Error";
 import { type User } from "../types/types";
+import Modal from "./modals/Modal";
 
 export type UserData = {
   email: string;
@@ -33,6 +34,8 @@ const initial_data: UserData = {
 export default function SignUpForm() {
   const [data, setData] = useState(initial_data);
   const [error, setError] = useState("");
+  const [active, setActive] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useUserDispatch();
   const navigate = useNavigate();
 
@@ -64,10 +67,17 @@ export default function SignUpForm() {
 
     if (!isLastStep) return next();
 
-    createUser(data).then((user: User) => {
-      dispatch(setUser(user));
-      navigate("/");
-    });
+    createUser(data)
+      .then((user: User) => {
+        dispatch(setUser(user));
+        navigate("/");
+      })
+      .catch((err: any) => {
+        if (err.response.data.msg) {
+          setErrorMessage(err.response.data.msg);
+          setActive(true);
+        }
+      });
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -204,6 +214,10 @@ export default function SignUpForm() {
           )}
         </div>
       </form>
+
+      <Modal active={active} setActive={setActive}>
+        <p className="text-sky-700 font-semibold text-lg">{errorMessage}</p>
+      </Modal>
     </>
   );
 }

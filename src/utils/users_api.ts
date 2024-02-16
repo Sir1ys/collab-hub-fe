@@ -23,6 +23,12 @@ export const getUserByEmail = (email: string) => {
   });
 };
 
+export const loginWithEmailAndPassword = (email: string, password: string) => {
+  return usersAPI.post(`/login`, { email, password }).then((response) => {
+    return response.data.user;
+  });
+};
+
 export const createUser = (user: UserData) => {
   return usersAPI.post(`/`, { user }).then((response) => {
     return response.data.user;
