@@ -5,7 +5,7 @@ import Form, { type FormHandle } from "../Form";
 import Button from "../Button";
 import { Input } from "../Input";
 import { type User } from "../../types/types";
-import { getUserByEmail } from "../../utils/users_api";
+import { loginWithEmailAndPassword } from "../../utils/users_api";
 import { useNavigate } from "react-router-dom";
 import SignUpForm from "../SignUpForm";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -20,20 +20,13 @@ export default function Login() {
   function handleSignIn(data: unknown) {
     const extractedData = data as { email: string; password: string };
 
-    getUserByEmail(extractedData.email)
+    loginWithEmailAndPassword(extractedData.email, extractedData.password)
       .then((user: User) => {
-        if (user.password === extractedData.password) {
-          dispatch(setUser(user));
-          navigate("/");
-        } else {
-          setError("Incorrect password. Please try again.");
-        }
+        dispatch(setUser(user));
+        navigate("/");
       })
-      .catch((err) => {
-        const message: string = err.response.data.msg;
-        if (message === "No user found with that Email") {
-          setError("Invalid email or password. Please try again.");
-        }
+      .catch((err: any) => {
+        setError(err.response.data.msg);
       });
 
     signInForm.current?.clear();
